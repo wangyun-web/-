@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>王鋆 WANG YUN · 视觉创作者作品集</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<!-- 字体异步加载：先用系统字体（PingFang/YaHei）即时渲染，Web 字体到位后无缝替换，避免首屏被 Google Fonts 阻塞 -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap"></noscript>
+<style>
+  :root{
+    --bg:#0A0B0D; --bg2:#111317; --panel:#16181D;
+    --fg:#F2F3F5; --gray:#9097A1; --gray2:#7E8694;
+    --red:#E8403B; --red2:#E8908C;
+    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+    --max:1280px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg); color:var(--fg);
+    font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  }
+  .en{font-family:"Barlow Condensed","Arial Narrow",sans-serif; letter-spacing:.06em;}
+  a{color:inherit; text-decoration:none;}
+  ::selection{background:var(--red); color:#fff;}
+
+  /* ---------- 玻璃吸顶导航 ---------- */
+  .nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 32px; transition:background .35s, box-shadow .35s, border-color .35s, backdrop-filter .35s;
+    border-bottom:1px solid transparent;
+  }
+  .nav.scrolled{
+    background:rgba(18,19,22,.55);
+    backdrop-filter:blur(16px) saturate(140%);
+    -webkit-backdrop-filter:blur(16px) saturate(140%);
+    border-bottom:1px solid var(--line);
+    box-shadow:0 8px 24px rgba(0,0,0,.4);
+  }
+  .nav .brand{display:flex; align-items:baseline; gap:10px;}
+  .nav .brand b{font-family:"Barlow Condensed",sans-serif; font-size:22px; font-weight:700; letter-spacing:.12em;}
+  .nav .brand span{font-size:13px; color:var(--gray);}
+  .nav ul{display:flex; gap:30px; list-style:none;}
+  .nav ul a{font-size:14px; letter-spacing:.04em; color:var(--fg); opacity:.85; transition:color .2s, opacity .2s;}
+  .nav ul a:hover{color:var(--red); opacity:1;}
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative; min-height:100vh; display:flex; flex-direction:column; justify-content:flex-end;
+    padding:0 64px 72px; overflow:hidden;}
+  .hero .bg{position:absolute; inset:0; background:url("assets/hero-bg.png") center/cover no-repeat; z-index:-3; object-fit:cover; width:100%; height:100%;}
+  /* 顶部 / 底部 / 左侧压暗遮罩，保证文字可读，并透出首屏影像 */
+  .hero .mask{position:absolute; inset:0; z-index:-2;
+    background:
+      linear-gradient(180deg, rgba(10,11,13,.75) 0%, rgba(10,11,13,0) 28%),
+      linear-gradient(0deg, rgba(10,11,13,.92) 0%, rgba(10,11,13,0) 45%),
+      linear-gradient(90deg, rgba(10,11,13,.85) 0%, rgba(10,11,13,0) 55%);}
+  .hero .kicker{font-size:14px; letter-spacing:.22em; color:var(--red2); text-transform:uppercase; margin-bottom:18px;}
+  .hero h1{font-family:"Barlow Condensed",sans-serif; font-weight:700; line-height:.92;
+    font-size:clamp(56px,10vw,150px); letter-spacing:.02em; margin-bottom:6px;}
+  .hero h1 .em{color:var(--red);}
+  .hero .lead{max-width:620px; color:var(--fg); opacity:.92; font-size:17px; margin:18px 0 30px;}
+  .hero .stats{display:flex; align-items:flex-end; gap:14px; margin-bottom:34px;}
+  .hero .stats .num{font-family:"Barlow Condensed",sans-serif; font-size:54px; font-weight:700; color:var(--red); line-height:1;}
+  .hero .stats .unit{font-size:18px; color:var(--fg);}
+  .hero .stats .lab{font-size:12px; letter-spacing:.18em; color:var(--gray2); text-transform:uppercase; margin-left:6px;}
+  .cta{display:flex; gap:16px; flex-wrap:wrap;}
+  .btn{padding:14px 28px; border-radius:99px; font-size:15px; font-weight:500; cursor:pointer; transition:.25s; border:1px solid transparent;}
+  .btn.primary{background:var(--red); color:#fff;}
+  .btn.primary:hover{background:#ff514c; transform:translateY(-2px);}
+  .btn.ghost{border-color:var(--line2); color:var(--fg);}
+  .btn.ghost:hover{border-color:var(--red); color:var(--red);}
+  .hero .slogan{position:absolute; right:64px; top:42%; text-align:right; font-family:"Barlow Condensed",sans-serif;
+    font-size:clamp(22px,3vw,40px); line-height:1.05; color:var(--fg); opacity:.85;}
+  .hero .slogan em{color:var(--red); font-style:normal;}
+  .hero .foot{position:absolute; left:64px; right:64px; bottom:22px; display:flex; justify-content:space-between;
+    font-size:12px; letter-spacing:.14em; color:var(--gray2); text-transform:uppercase;}
+
+  /* Hero 标题逐行遮罩揭开容器 */
+  .hero h1 .line{display:block; overflow:hidden; padding-bottom:.08em; margin-bottom:-.08em;}
+  .hero h1 .line-in{display:block; will-change:transform;}
+
+  /* ---------- 开场预加载 / 揭幕 ---------- */
+  #preloader{position:fixed; inset:0; z-index:9999; background:var(--bg); display:flex; align-items:center; justify-content:center; overflow:hidden;}
+  #preloader .pl-inner{text-align:center; will-change:transform, opacity;}
+  #preloader .pl-brand{font-family:"Barlow Condensed",sans-serif; font-weight:700; letter-spacing:.08em; line-height:.95;
+    font-size:clamp(46px,9vw,120px);}
+  #preloader .pl-sub{margin-top:16px; font-size:12px; letter-spacing:.34em; color:var(--gray); text-transform:uppercase;}
+  #preloader .pl-line{margin:36px auto 0; width:min(320px,62vw); height:2px; background:rgba(255,255,255,.12); overflow:hidden; border-radius:2px;}
+  #preloader .pl-fill{display:block; height:100%; width:0%; background:var(--red);}
+  #preloader .pl-count{margin-top:18px; font-family:"Barlow Condensed",sans-serif; font-size:22px; color:var(--gray2); letter-spacing:.06em;}
+  #preloader .pl-count i{font-style:normal; font-size:14px; margin-left:3px;}
+
+  /* 降级：禁用动效时还原任何被隐藏的初始态（此处元素默认可见，仅兜底） */
+  .no-anim .hero h1 .line-in{transform:none !important;}
+
+  /* ---------- 通用 section ---------- */
+  .section{padding:120px 64px; max-width:var(--max); margin:0 auto;}
+  .eyebrow{display:inline-block; font-size:13px; letter-spacing:.2em; color:var(--red); text-transform:uppercase; margin-bottom:14px;}
+  .eyebrow b{color:var(--gray2); font-weight:400;}
+  .sec-title{font-size:clamp(30px,5vw,52px); font-weight:700; line-height:1.1; margin-bottom:18px;}
+  .sec-intro{color:var(--gray); max-width:640px; font-size:16px; margin-bottom:48px;}
+
+  /* 经历 卡片 + BorderGlow 悬浮发光（移植自 React Bits 的 BorderGlow 组件，配色改为红色品牌） */
+  .timeline{display:grid; gap:22px;}
+  .tl-item{
+    position:relative; border-radius:18px; isolation:isolate; transform:translate3d(0,0,0.01px);
+    border:1px solid var(--line); background:var(--panel);
+    padding:30px 34px;
+    --edge-proximity:0; --cursor-angle:45deg;
+    --edge-sensitivity:30; --color-sensitivity:calc(var(--edge-sensitivity) + 20);
+    --border-radius:18px; --glow-padding:34px; --cone-spread:25; --fill-opacity:0.5;
+    --card-bg:var(--panel);
+    --glow-color:hsl(2deg 82% 57% / 100%);
+    --glow-color-60:hsl(2deg 82% 57% / 60%);
+    --glow-color-50:hsl(2deg 82% 57% / 50%);
+    --glow-color-40:hsl(2deg 82% 57% / 40%);
+    --glow-color-30:hsl(2deg 82% 57% / 30%);
+    --glow-color-20:hsl(2deg 82% 57% / 20%);
+    --glow-color-10:hsl(2deg 82% 57% / 10%);
+    --gradient-one:radial-gradient(at 80% 55%, #E8403B 0px, transparent 50%);
+    --gradient-two:radial-gradient(at 69% 34%, #FF7A6B 0px, transparent 50%);
+    --gradient-three:radial-gradient(at 8% 6%, #E8908C 0px, transparent 50%);
+    --gradient-four:radial-gradient(at 41% 38%, #E8403B 0px, transparent 50%);
+    --gradient-five:radial-gradient(at 86% 85%, #FF7A6B 0px, transparent 50%);
+    --gradient-six:radial-gradient(at 82% 18%, #E8908C 0px, transparent 50%);
+    --gradient-seven:radial-gradient(at 51% 4%, #FF7A6B 0px, transparent 50%);
+    --gradient-base:linear-gradient(#E8403B 0 100%);
+    box-shadow: rgba(0,0,0,.1) 0 1px 2px, rgba(0,0,0,.1) 0 8px 24px;
+    transition:border-color .3s, box-shadow .3s, transform .3s;
+  }
+  .tl-item:hover{border-color:rgba(232,64,59,.35);}
+  .bg-inner{display:grid; grid-template-columns:200px 1fr; gap:28px; position:relative; z-index:1;}
+
+  .tl-item::before,
+  .tl-item::after,
+  .tl-item > .edge-light{content:""; position:absolute; inset:0; border-radius:inherit; transition:opacity .25s ease-out; z-index:-1;}
+  .tl-item:not(:hover)::before,
+  .tl-item:not(:hover)::after,
+  .tl-item:not(:hover) > .edge-light{opacity:0; transition:opacity .75s ease-in-out;}
+
+  /* 彩色网格渐变描边 */
+  .tl-item::before{
+    border:1px solid transparent;
+    background:
+      linear-gradient(var(--card-bg) 0 100%) padding-box,
+      linear-gradient(rgb(255 255 255 / 0%) 0% 100%) border-box,
+      var(--gradient-one) border-box, var(--gradient-two) border-box, var(--gradient-three) border-box,
+      var(--gradient-four) border-box, var(--gradient-five) border-box, var(--gradient-six) border-box,
+      var(--gradient-seven) border-box, var(--gradient-base) border-box;
+    opacity:calc((var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
+    mask-image:conic-gradient(from var(--cursor-angle) at center, black calc(var(--cone-spread) * 1%), transparent calc((var(--cone-spread) + 15) * 1%), transparent calc((100 - var(--cone-spread) - 15) * 1%), black calc((100 - var(--cone-spread)) * 1%));
+  }
+  /* 边缘彩色填充 */
+  .tl-item::after{
+    border:1px solid transparent;
+    background:
+      var(--gradient-one) padding-box, var(--gradient-two) padding-box, var(--gradient-three) padding-box,
+      var(--gradient-four) padding-box, var(--gradient-five) padding-box, var(--gradient-six) padding-box,
+      var(--gradient-seven) padding-box, var(--gradient-base) padding-box;
+    mask-image:
+      linear-gradient(to bottom, black, black),
+      radial-gradient(ellipse at 50% 50%, black 40%, transparent 65%),
+      radial-gradient(ellipse at 66% 66%, black 5%, transparent 40%),
+      radial-gradient(ellipse at 33% 33%, black 5%, transparent 40%),
+      radial-gradient(ellipse at 66% 33%, black 5%, transparent 40%),
+      radial-gradient(ellipse at 33% 66%, black 5%, transparent 40%),
+      conic-gradient(from var(--cursor-angle) at center, transparent 5%, black 15%, black 85%, transparent 95%);
+    mask-composite:subtract, add, add, add, add, add;
+    opacity:calc(var(--fill-opacity) * (var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
+    mix-blend-mode:soft-light;
+  }
+  /* 外发光 */
+  .tl-item > .edge-light{
+    inset:calc(var(--glow-padding) * -1); pointer-events:none; z-index:1;
+    mask-image:conic-gradient(from var(--cursor-angle) at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%);
+    opacity:calc((var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity)));
+    mix-blend-mode:plus-lighter;
+  }
+  .tl-item > .edge-light::before{
+    content:""; position:absolute; inset:var(--glow-padding); border-radius:inherit;
+    box-shadow:
+      inset 0 0 0 1px var(--glow-color), inset 0 0 1px 0 var(--glow-color-60),
+      inset 0 0 3px 0 var(--glow-color-50), inset 0 0 6px 0 var(--glow-color-40),
+      inset 0 0 15px 0 var(--glow-color-30), inset 0 0 25px 2px var(--glow-color-20),
+      inset 0 0 50px 2px var(--glow-color-10),
+      0 0 1px 0 var(--glow-color-60), 0 0 3px 0 var(--glow-color-50),
+      0 0 6px 0 var(--glow-color-40), 0 0 15px 0 var(--glow-color-30),
+      0 0 25px 2px var(--glow-color-20), 0 0 50px 2px var(--glow-color-10);
+  }
+
+  .tl-co{font-size:18px; font-weight:500;}
+  .tl-sub{display:inline-block; margin-left:8px; padding:2px 8px; border-radius:99px; vertical-align:2px;
+    font-size:11px; font-weight:400; letter-spacing:.05em; color:var(--red2); border:1px solid rgba(232,144,140,.35);}
+  .tl-date{font-size:13px; color:var(--gray2); margin-top:6px; letter-spacing:.04em;}
+  .tl-role{color:var(--red2); font-size:13px; margin-bottom:10px; letter-spacing:.04em;}
+  .tl-desc{color:var(--gray); font-size:15px;}
+
+  /* 项目 分类 */
+  .cat{margin-bottom:84px;}
+  .cat-head{display:flex; align-items:baseline; gap:14px; margin-bottom:26px; padding-bottom:14px; border-bottom:1px solid var(--line);}
+  .cat-head h3{font-size:24px; font-weight:600;}
+  .cat-head .cnum{font-family:"Barlow Condensed",sans-serif; color:var(--red); font-size:18px;}
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:22px;}
+  .grid.align-start{align-items:start;}
+  /* 美呗截图卡：竖屏 9:16 / 横版数据图；点击放大 */
+  .card.mb-portrait .media{aspect-ratio:9/16;}
+  .card.mb-wide .media{aspect-ratio:1679/599;}
+  .card.mb-portrait .media img{object-position:top;}
+  .card .media img.zoom{cursor:zoom-in; transition:transform .5s, filter .3s;}
+  /* 千境抖音截图卡：竖屏 9:16 + 右下角播放按钮（与点击放大并存） */
+  .card.qj-portrait .media{aspect-ratio:9/16;}
+  .card.qj-portrait .media img{object-position:top;}
+  .play-corner{position:absolute; right:12px; bottom:12px; z-index:3; width:46px; height:46px; border:none; border-radius:50%;
+    background:rgba(232,64,59,.92); color:#fff; font-size:17px; display:flex; align-items:center; justify-content:center;
+    padding-left:3px; cursor:pointer; box-shadow:0 6px 20px rgba(232,64,59,.5); transition:transform .25s, background .25s;}
+  .play-corner:hover{transform:scale(1.08); background:#c9342f;}
+  /* 多集选集按钮（如深渊神舰 上/下集） */
+  .ep-picker{position:absolute; right:12px; bottom:12px; z-index:3; display:flex; gap:8px;}
+  .play-ep{border:none; border-radius:999px; padding:10px 16px; font-size:13px; font-weight:600; letter-spacing:.05em;
+    background:rgba(232,64,59,.92); color:#fff; cursor:pointer; box-shadow:0 6px 20px rgba(232,64,59,.5);
+    transition:transform .25s, background .25s; font-family:inherit;}
+  .play-ep:hover{transform:translateY(-2px); background:#c9342f;}
+  /* 账号卡 · 视频作品小图标（点击弹出播放弹窗） */
+  .vid-chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+  .vid-chip{display:inline-flex; align-items:center; gap:8px; padding:11px 19px; border-radius:999px;
+    border:1px solid rgba(232,144,140,.45); background:rgba(232,64,59,.1); color:var(--fg); font-size:14.5px;
+    cursor:pointer; transition:border-color .25s, color .25s, transform .25s; font-family:inherit;}
+  .vid-chip i{font-style:normal; color:var(--red); font-size:13px;}
+  .vid-chip:hover{border-color:var(--red); color:var(--red); transform:translateY(-1px);}
+  .vid-cover{display:block; width:100%; padding:0; margin-top:12px; border:1px solid var(--line2); border-radius:10px;
+    overflow:hidden; position:relative; cursor:pointer; background:#000; font-family:inherit;
+    transition:border-color .25s, transform .25s;}
+  .vid-cover img{display:block; width:100%;}
+  .vid-inline video{width:100%; display:block; vertical-align:top;}
+  .vid-cover .pc{position:absolute; right:10px; bottom:10px; width:38px; height:38px; border-radius:50%;
+    background:rgba(0,0,0,.65); color:#fff; display:flex; align-items:center; justify-content:center;
+    font-size:14px; border:1px solid rgba(255,255,255,.35);}
+  .vid-cover:hover{border-color:var(--red); transform:translateY(-2px);}
+  /* 视频播放弹窗 */
+  .vmodal{position:fixed; inset:0; z-index:9998; display:flex; align-items:center; justify-content:center;
+    padding:5vh 5vw; background:rgba(8,9,12,.94); opacity:0; visibility:hidden;
+    transition:opacity .3s, visibility .3s; backdrop-filter:blur(6px);}
+  .vmodal.open{opacity:1; visibility:visible;}
+  .vmodal video{max-width:min(92vw,560px); max-height:86vh; border-radius:12px; background:#000;
+    box-shadow:0 30px 80px rgba(0,0,0,.6);}
+  .vmodal .vm-close{position:absolute; top:20px; right:24px; width:44px; height:44px; border-radius:50%;
+    background:rgba(255,255,255,.14); border:none; color:#fff; font-size:20px; line-height:1; cursor:pointer; transition:background .25s; z-index:2;}
+  .vmodal .vm-close:hover{background:rgba(232,64,59,.9);}
+  /* 点击放大灯箱 */
+  .lightbox{position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center; padding:5vh 5vw; background:rgba(8,9,12,.92); opacity:0; visibility:hidden; transition:opacity .35s, visibility .35s; cursor:zoom-out; backdrop-filter:blur(6px);}
+  .lightbox.open{opacity:1; visibility:visible;}
+  .lightbox img{max-width:100%; max-height:100%; width:auto; height:auto; border-radius:10px; box-shadow:0 30px 80px rgba(0,0,0,.6); transform:scale(.94); transition:transform .35s, opacity .25s;}
+  .lightbox.open img{transform:scale(1);}
+  .lightbox .lb-close{position:absolute; top:20px; right:24px; width:44px; height:44px; border-radius:50%; background:rgba(255,255,255,.14); border:none; color:#fff; font-size:20px; line-height:1; cursor:pointer; transition:background .25s;}
+  .lightbox .lb-close:hover{background:rgba(232,64,59,.9);}
+  .card{background:var(--bg2); border:1px solid var(--line); border-radius:14px; overflow:hidden; transition:transform .3s, border-color .3s, box-shadow .3s;}
+  .card:hover{transform:translateY(-4px); border-color:var(--line2); box-shadow:0 18px 40px rgba(0,0,0,.45);}
+  .card .media{position:relative; aspect-ratio:16/10; overflow:hidden; background:linear-gradient(135deg,#1c1f26,#0e1014);}
+  .card .media img{width:100%; height:100%; object-fit:cover; transition:transform .5s; display:block;}
+  .card:hover .media img{transform:scale(1.06);}
+  .card.vcard .media video{width:100%; height:100%; object-fit:cover; display:block; background:#000;}
+  /* 抖音主页截图海报：竖版长图顶部对齐，露出主页头部；轻微压暗衬托播放按钮 */
+  .card.vcard .media img.poster{object-position:top; filter:brightness(.92);}
+  .card.vcard .media:hover img.poster{filter:brightness(1);}
+  .play{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:2;}
+  .play i{width:58px; height:58px; border-radius:50%; background:rgba(232,64,59,.92); display:flex; align-items:center; justify-content:center;
+    color:#fff; font-size:20px; padding-left:4px; box-shadow:0 6px 20px rgba(232,64,59,.5); backdrop-filter:blur(2px);}
+  .card .body{padding:18px 20px 22px;}
+  .tag{display:inline-block; font-size:12px; color:var(--red2); border:1px solid rgba(232,144,140,.4); padding:3px 11px; border-radius:99px; margin-bottom:11px; letter-spacing:.04em;}
+  .card h4{font-size:18px; font-weight:600; margin:0 0 8px;}
+  .card p{color:var(--gray); font-size:14px; line-height:1.6; margin:0;}
+  .mb-cap{font-size:12.5px; color:var(--gray2); letter-spacing:.03em; margin:10px 0 0;}
+  .more{margin-top:22px; padding:18px 20px; border:1px dashed var(--line2); border-radius:12px; color:var(--gray2); font-size:14px;}
+
+  /* 红星新闻 · 策划案与品牌片落地 */
+  .hx-block{margin-top:34px; border:1px solid var(--line); border-radius:16px; background:var(--bg2); overflow:hidden;}
+  .hx-head{display:flex; align-items:center; gap:16px; padding:20px 24px; border-bottom:1px solid var(--line);}
+  .hx-badge{font-family:"Barlow Condensed",sans-serif; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:#fff; background:var(--red); padding:6px 13px; border-radius:8px; white-space:nowrap;}
+  .hx-head h4{margin:0; font-size:19px; font-weight:600;}
+  .hx-head p{margin:3px 0 0; color:var(--gray2); font-size:13px;}
+  .hx-feature{display:grid; grid-template-columns:minmax(240px,320px) 1fr;}
+  .hx-cover{position:relative; margin:0; aspect-ratio:720/1560;}
+  .hx-cover img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top; display:block; transition:transform .5s;}
+  .hx-feature:hover .hx-cover img{transform:scale(1.04);}
+  .hx-cover figcaption{position:absolute; left:14px; bottom:12px; font-size:12px; letter-spacing:.05em; color:#fff; background:rgba(0,0,0,.55); padding:4px 11px; border-radius:99px; backdrop-filter:blur(4px); z-index:3;}
+  .hx-cover video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top; background:#000; z-index:1;}
+  .hx-cover .play{z-index:2;}
+  .hx-info{padding:26px 28px; display:flex; flex-direction:column; gap:12px; justify-content:center;}
+  .hx-info h5{margin:0; font-size:20px; font-weight:600; line-height:1.45;}
+  .hx-info p{margin:0; color:var(--gray); font-size:14px; line-height:1.75;}
+  .hx-meta{font-size:12.5px; color:var(--gray2); letter-spacing:.04em;}
+  .hx-dl{display:inline-flex; align-items:center; gap:8px; align-self:flex-start; margin-top:4px; padding:10px 18px; border-radius:10px; background:var(--red); color:#fff; font-size:14px; text-decoration:none; transition:background .25s, transform .25s;}
+  .hx-dl:hover{background:#c9342f; transform:translateY(-2px);}
+  .hx-stills{display:flex; gap:12px; margin-top:4px;}
+  .hx-stills img{width:112px; aspect-ratio:9/16; object-fit:cover; object-position:top; border-radius:10px; border:1px solid var(--line2); display:block;}
+  @media(max-width:760px){.hx-feature{grid-template-columns:1fr;} .hx-cover{max-width:340px; margin:0 auto;}}
+
+  /* 麻雀小姐 · 数据复盘 */
+  .mq-body{padding:24px 24px 26px; display:flex; flex-direction:column; gap:18px;}
+  .mq-kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:14px;}
+  .kpi{background:rgba(232,64,59,.07); border:1px solid rgba(232,144,140,.22); border-radius:12px; padding:16px 16px 14px;}
+  .kpi b{display:block; font-family:"Barlow Condensed",sans-serif; font-weight:700; font-size:40px; line-height:1; color:var(--red);}
+  .kpi b i{font-style:normal; font-size:20px; margin-left:3px;}
+  .kpi span{display:block; margin-top:9px; font-size:14px; font-weight:600;}
+  .kpi em{display:block; margin-top:5px; font-style:normal; font-size:12px; color:var(--gray2); line-height:1.55;}
+  .mq-verdict{margin:0; font-size:13.5px; color:var(--gray); line-height:1.75; border-left:3px solid var(--red); padding-left:14px;}
+  .mq-shots{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; align-items:start;}
+  .mq-shots img{width:100%; border-radius:10px; border:1px solid var(--line); display:block; cursor:zoom-in; background:#fff; transition:transform .35s;}
+  .mq-shots img:hover{transform:translateY(-3px);}
+  @media(max-width:860px){.mq-kpis{grid-template-columns:repeat(2,1fr);} .mq-shots{gap:8px;}}
+
+  /* 策划案 PDF 卡 */
+  .doc-dl{display:inline-flex; align-items:center; gap:6px; margin-top:10px; padding:7px 14px; border-radius:8px;
+    background:rgba(232,64,59,.12); border:1px solid rgba(232,64,59,.45); color:var(--red2); font-size:13px;
+    text-decoration:none; transition:background .25s, color .25s;}
+  .doc-dl:hover{background:var(--red); color:#fff;}
+  .award{font-size:13px; font-weight:700; color:var(--red2); margin:0 0 8px; letter-spacing:.02em; line-height:1.5;}
+  .award::before{content:"🏅 ";}
+  .cert{display:block; height:120px; width:auto; margin:2px 0 12px; border-radius:6px; border:1px solid var(--line); cursor:zoom-in; transition:border-color .3s, transform .3s;}
+  .cert:hover{border-color:var(--red2); transform:translateY(-2px);}
+  .cert-row{display:flex; gap:10px; flex-wrap:wrap; margin:2px 0 12px;}
+  .cert-row .cert{margin:0;}
+  .card.cert-card .media{aspect-ratio:auto;}
+  .card.cert-card .media img{height:auto; object-fit:contain; background:#fff;}
+
+  /* 优势 */
+  .adv-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px;}
+  .adv{background:var(--bg2); border:1px solid var(--line); border-radius:14px; padding:28px 26px; transition:.3s;}
+  .adv:hover{border-color:var(--red);}
+  .adv .no{font-family:"Barlow Condensed",sans-serif; font-size:42px; color:var(--red); line-height:1;}
+  .adv .ico{font-size:26px; line-height:1; margin-bottom:16px;}
+  .adv h4{font-size:20px; margin:14px 0 4px;}
+  .adv .en2{font-family:"Barlow Condensed",sans-serif; color:var(--gray2); font-size:15px; letter-spacing:.08em; margin-bottom:14px;}
+  .adv p{color:var(--gray); font-size:14px; line-height:1.65;}
+  .adv .tools{margin-top:16px; display:flex; flex-wrap:wrap; gap:8px;}
+  .adv .tools span{font-size:12px; color:var(--fg); border:1px solid var(--line2); padding:3px 10px; border-radius:99px;}
+  .skills{margin-top:40px; display:flex; flex-wrap:wrap; gap:12px; align-items:center;}
+  .skills .sk-label{color:var(--gray2); font-size:13px; letter-spacing:.14em; text-transform:uppercase; margin-right:6px;}
+  .skills span{font-size:14px; color:var(--fg); border:1px solid var(--line2); padding:6px 14px; border-radius:99px;}
+
+  /* 联系 */
+  .contact{text-align:center; padding:140px 64px;}
+  .contact .big{font-size:clamp(30px,4.6vw,52px); font-weight:700; line-height:1.32; letter-spacing:.02em; font-family:"Barlow Condensed",sans-serif;}
+  .contact .big em{color:var(--red); font-style:normal;}
+  .contact p{color:var(--gray); max-width:520px; margin:22px auto 34px; font-size:16px;}
+  .contact .mail{display:inline-block; font-family:"Barlow Condensed",sans-serif; font-size:26px; color:var(--red); border-bottom:1px solid var(--red); padding-bottom:4px;}
+  .contact-rows{display:flex; flex-wrap:wrap; justify-content:center; gap:14px; max-width:900px; margin:0 auto;}
+  .c-item{display:inline-flex; align-items:center; gap:9px; padding:13px 24px; border:1px solid var(--line2); border-radius:99px;
+    color:var(--fg); font-size:15px; text-decoration:none; cursor:pointer; background:transparent; font-family:inherit;
+    transition:border-color .25s, color .25s, transform .25s;}
+  .c-item i{font-style:normal; font-size:16px;}
+  .c-item b{color:var(--red); font-weight:500;}
+  .c-item:hover{border-color:var(--red); transform:translateY(-2px);}
+  .c-item .hint{font-size:12px; color:var(--gray2);}
+
+  /* footer */
+  .footer{border-top:1px solid var(--line); padding:40px 64px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; color:var(--gray2); font-size:13px;}
+  .footer .links{display:flex; gap:24px;}
+  .footer .links a:hover{color:var(--red);}
+  .footer .top{cursor:pointer; letter-spacing:.14em; text-transform:uppercase;}
+  .footer .top:hover{color:var(--red);}
+
+  /* ---------- AeroShards 背景层（头图下方流动的玻璃碎片，React+WebGPU 渲染） ---------- */
+  #aero-bg{
+    position:fixed; inset:0; z-index:-4; pointer-events:none; overflow:hidden;
+    background:radial-gradient(120% 80% at 50% 112%, rgba(232,64,59,.16), transparent 60%), #0A0B0D;
+  }
+  /* WebGPU 不可用时的降级：保留一抹红色氛围，不报错 */
+  #aero-bg.aero-failed{
+    background:
+      radial-gradient(80% 55% at 28% 18%, rgba(232,64,59,.22), transparent 55%),
+      radial-gradient(70% 55% at 82% 72%, rgba(255,122,107,.18), transparent 55%),
+      #0A0B0D;
+  }
+  .aero-shards{position:relative; width:100%; height:100%; overflow:hidden;}
+  .aero-shards-canvas{position:absolute; inset:0; display:block; width:100%; height:100%;}
+
+  @media(max-width:760px){
+    .nav{padding:14px 18px;} .nav ul{gap:16px; font-size:13px;}
+    .hero{padding:0 22px 56px;} .hero .slogan{display:none;} .hero .foot{left:22px; right:22px;}
+    .section{padding:80px 22px;} .contact{padding:90px 22px;} .contact .big{font-size:clamp(24px,6vw,34px);}
+    .bg-inner{grid-template-columns:1fr; gap:10px;} .tl-item{padding:24px;} .footer{padding:30px 22px;}
+  }
+
+  /* 自定义视频控制条（替代原生 controls，确保进度条可拖动） */
+  .card .media .vbar, .hx-cover .vbar{
+    position:absolute; left:0; right:0; bottom:0; z-index:6;
+    display:flex; align-items:center; gap:10px; padding:14px 12px 10px;
+    background:linear-gradient(to top, rgba(0,0,0,.78), rgba(0,0,0,0));
+    opacity:0; visibility:hidden; transition:opacity .25s, visibility .25s; pointer-events:none;
+  }
+  .card .media.video-active .vbar, .hx-cover.video-active .vbar{opacity:1; visibility:visible; pointer-events:auto;}
+  .vbar .vplay{
+    flex:0 0 auto; width:34px; height:34px; border:none; border-radius:50%;
+    background:rgba(255,255,255,.16); color:#fff; cursor:pointer; font-size:13px; line-height:1;
+    display:flex; align-items:center; justify-content:center; transition:background .2s;
+  }
+  .vbar .vplay:hover{background:rgba(232,64,59,.9);}
+  .vbar .vseek{
+    flex:1 1 auto; -webkit-appearance:none; appearance:none; height:4px; border-radius:4px;
+    background:rgba(255,255,255,.28); cursor:pointer; outline:none; min-width:40px;
+  }
+  .vbar .vseek::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none; width:13px; height:13px; border-radius:50%;
+    background:#E8403B; cursor:pointer; box-shadow:0 0 0 3px rgba(232,64,59,.25);
+  }
+  .vbar .vseek::-moz-range-thumb{
+    width:13px; height:13px; border:none; border-radius:50%; background:#E8403B; cursor:pointer;
+  }
+  .vbar .vtime{
+    flex:0 0 auto; color:#fff; font-size:12px; font-variant-numeric:tabular-nums;
+    min-width:78px; text-align:right; letter-spacing:.02em;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== 开场预加载 / 揭幕层 ===================== -->
+<div id="preloader">
+  <div class="pl-inner">
+    <div class="pl-brand">WANG YUN</div>
+    <div class="pl-sub">Visual Creator · Portfolio</div>
+    <div class="pl-line"><span class="pl-fill"></span></div>
+    <div class="pl-count"><span id="pl-num">0</span><i>%</i></div>
+  </div>
+</div>
+<noscript><style>#preloader{display:none!important;}</style></noscript>
+<script>window.__preloadDone=false; setTimeout(function(){ if(!window.__preloadDone){ var p=document.getElementById('preloader'); if(p) p.style.display='none'; } }, 9000);</script>
+
+<!-- ===================== AeroShards 背景（头图下方的流动玻璃碎片层） ===================== -->
+<div id="aero-bg"></div>
+
+<!-- ===================== 导航 ===================== -->
+<nav class="nav" id="nav">
+  <div class="brand"><b>WANG YUN</b><span>王鋆 · 视觉创作者</span></div>
+  <ul>
+    <li><a href="#experience">经历</a></li>
+    <li><a href="#projects">项目</a></li>
+    <li><a href="#advantages">优势</a></li>
+    <li><a href="#contact">联系</a></li>
+  </ul>
+</nav>
+
+<!-- ===================== Hero ===================== -->
+<header class="hero" id="top">
+  <video class="bg" autoplay muted loop playsinline preload="auto" poster="assets/hero-bg.png"><source src="videos/hero.mp4" type="video/mp4"></video>
+  <div class="mask"></div>
+  <div class="slogan">视觉不是装饰，<br><em>是叙事。</em></div>
+  <div class="kicker">AIGC · 新媒体运营 · 后期制作</div>
+  <h1>
+    <span class="line"><span class="line-in">WANGYUN</span></span>
+    <span class="line"><span class="line-in">让想象先有<span class="em">画面</span></span></span>
+  </h1>
+  <p class="lead">王鋆 / WANG YUN — 视觉创作者。从剧本拆解、分镜出图到图生视频与后期剪辑，把文字里的世界做成能看的画面。</p>
+  <div class="stats">
+    <div class="num en">1.68</div><div class="unit">亿+</div>
+    <div class="lab">AI 漫剧累计播放 / Content Views</div>
+  </div>
+  <div class="cta">
+    <a class="btn primary" href="docs/wangjun-resume.pdf" target="_blank">查看简历</a>
+    <a class="btn ghost" href="tel:18728691480" style="font-size:14px;">电话：18728691480 ｜ 微信：Karrywy9211123 ｜ 邮箱：18728691480@163.com</a>
+  </div>
+  <div class="foot">
+    <span>向下滚动 — 作品 01—03</span>
+    <span class="en">成都 · 中国 / GMT+8</span>
+  </div>
+</header>
+
+<!-- ===================== 经历 ===================== -->
+<section class="section" id="experience">
+  <span class="eyebrow"><b>01 /</b> EXPERIENCE</span>
+  <h2 class="sec-title">实习经历</h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <span class="edge-light"></span>
+      <div class="bg-inner">
+        <div><div class="tl-co">IGG</div><div class="tl-date en">2026.06 — 至今</div></div>
+        <div>
+          <div class="tl-role">AI 漫剧运营实习生</div>
+          <div class="tl-desc">参与海外短剧平台的 AI 漫剧制作，覆盖剧本拆解、角色设定、分镜出图、图生视频与后期剪辑；沉淀分镜提示词 SOP，将单集制作周期缩短至约 1 天，制作剧已上线 Dramabox、ReelShort、GoodShort 等海外平台，累计播放量 1.68 亿+。<br>参与《非自愿心动》等项目制作：该剧在 ReelShort 创意数 1.5w，获约 460 万播放、5.78 万收藏，综合开播保留、首集完播等指标名列同类型项目前列。<br>《麻雀小姐》项目：前 10 秒保存率 93.33%、主动参与率 80.36%、首集完播率 71.11%。<br>《谁敢惹我指环王》：创意数 1.22w，播放量约 380w，收藏量约 4 万。</div>
+        </div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <span class="edge-light"></span>
+      <div class="bg-inner">
+        <div><div class="tl-co">成都千境传媒文化有限公司<span class="tl-sub">校企合作</span></div><div class="tl-date en">2023.12 — 2026.06</div></div>
+        <div>
+          <div class="tl-role">编导</div>
+          <div class="tl-desc">核心能力：短视频创意制作（PR / 剪映）、账号全周期运营、团队统筹管理、商业化内容转化、热点内容落地。<br>负责工作室管理工作，深耕短视频策划、拍摄、剪辑到运营的全流程；兼顾内容创意与商业变现，累计产出视频 1700+ 条，全平台互动 203 万+，助力 5 个官方与品牌项目实现流量增长与转化。<br>内容成果：主导成都世园会官号剪辑（20+ 条视频，累计互动量 100 万+）；运营成都政务生活号涨粉 2w+，转化 35w+ 人。<br>获客转化：参与勇士夏令营招生内容制作，项目交付 200+ 条短视频，获得 3000+ 名意向用户。<br>项目统筹：负责甲方需求对接、素材分配与内容终审。</div>
+        </div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <span class="edge-light"></span>
+      <div class="bg-inner">
+        <div><div class="tl-co">美尔贝科技股份有限公司</div><div class="tl-date en">2025.06 — 2025.08</div></div>
+        <div>
+          <div class="tl-role">新媒体运营实习生</div>
+          <div class="tl-desc">小红书账号打造：从 0 到 1 打造医美医生 IP 账号，通过竞品分析确定引流方向，聚焦专业面诊、过程纪实、效果对比等消费者痛点；策划、拍摄、剪辑一系列相关视频与图文，累计产出视频 400 余条，累计互动量超 100 万。<br>成果与影响：实习 60 天内账号粉丝从 0 到 3000+ 暴增；打造点击量超百万的爆款视频，累计投放消耗 13 万元，实现超 252 万次曝光，转化意向用户 896 人，ROI ≈ 3.5，实现低成本高效率获客。</div>
+        </div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <span class="edge-light"></span>
+      <div class="bg-inner">
+        <div><div class="tl-co">成都明月村文化旅游发展有限公司</div><div class="tl-date en">2026.01 — 2026.02</div></div>
+        <div>
+          <div class="tl-role">内容运营实习生</div>
+          <div class="tl-desc">0-1 账号搭建与冷启动：独立负责「明月村村草书记」抖音账号定位、内容策略和脚本；1 个月内月播放量由 0 增至 6.5 万，粉丝数由 0 增至 969，单条视频播放量 2w+。<br>建立数据看板并每周复盘播放、完播与用户画像；主导封面和标题 A/B 测试，依据点击率调整表达，点击率由 26% 提升至 43%。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 项目 ===================== -->
+<section class="section" id="projects">
+  <span class="eyebrow"><b>02 /</b> SELECTED WORK</span>
+  <h2 class="sec-title">精选作品</h2>
+  <p class="sec-intro">作品按实习与参赛经历分门别类。每张带 ▶ 的卡片都是视频作品。</p>
+
+  <!-- IGG -->
+  <div class="cat">
+    <div class="cat-head"><span class="cnum en">A</span><h3>IGG · AI 漫剧与买量视频</h3></div>
+    <div class="grid align-start">
+      <article class="card vcard qj-portrait">
+        <div class="media">
+          <img class="poster zoom" src="assets/igg-zyxd.jpg" alt="《非自愿心动》封面 Came For The Money Stayed For Him" data-zoom="assets/igg-zyxd.jpg">
+          <video style="display:none" controls preload="none" poster="assets/igg-zyxd.jpg"><source src="videos/zyxd.mp4" type="video/mp4"></video>
+          <button class="play-corner" aria-label="播放视频"><i>▶</i></button>
+        </div>
+        <div class="body"><span class="tag">AI 漫剧</span><h4>《非自愿心动》</h4>
+          <p>ReelShort 创意数 1.5w，约 460 万播放、5.78 万收藏；B站 / 小红书二创 200 万+。</p></div>
+      </article>
+
+      <article class="card vcard qj-portrait">
+        <div class="media">
+          <img class="poster zoom" src="assets/igg-sysj.jpg" alt="《深渊神舰》封面 My Trash Ship Is Secretly OP" data-zoom="assets/igg-sysj.jpg">
+          <video style="display:none" controls preload="none" poster="assets/igg-sysj.jpg"></video>
+          <div class="ep-picker">
+            <button class="play-ep" data-src="videos/sysj-a.mp4" aria-label="播放上集">▶ 上集</button>
+            <button class="play-ep" data-src="videos/sysj-b.mp4" aria-label="播放下集">▶ 下集</button>
+          </div>
+        </div>
+        <div class="body"><span class="tag">AI 漫剧 · 互动剧</span><h4>《深渊神舰：我加载了海王系统》</h4>
+          <p>互动漫剧：每集结尾由观众替男主做选择，不同选择走向不同剧情；分镜提示词 SOP 沉淀，单集制作周期约 1 天。</p></div>
+      </article>
+
+      <!-- 麻雀小姐：已接入成片 -->
+      <article class="card vcard qj-portrait">
+        <div class="media">
+          <img class="poster zoom" src="assets/igg-mqxj.jpg" alt="《麻雀小姐觉醒成神，继兄跪下叫女王》封面 My Four Divine Guardians Are Completely Obsessed With Me" data-zoom="assets/igg-mqxj.jpg">
+          <video style="display:none" controls preload="none" poster="assets/igg-mqxj.jpg"><source src="videos/mqxj.mp4" type="video/mp4"></video>
+          <button class="play-corner" aria-label="播放视频"><i>▶</i></button>
+        </div>
+        <div class="body"><span class="tag">AI 漫剧</span><h4>《麻雀小姐觉醒成神，继兄跪下叫女王》</h4>
+          <p>AI 漫剧系列之一；前 10s 保存率 93.33%、主动参与率 80.36%、GPT 综合评分 85——数据复盘见下。</p></div>
+      </article>
+
+      <!-- 谁敢惹我指环王 -->
+      <article class="card vcard qj-portrait">
+        <div class="media">
+          <img class="poster zoom" src="assets/igg-wzhw.jpg" alt="《谁敢惹我指环王》封面 From Orphan to King of Asgard" data-zoom="assets/igg-wzhw.jpg">
+          <video style="display:none" controls preload="none" poster="assets/igg-wzhw.jpg"><source src="videos/wzhw.mp4" type="video/mp4"></video>
+          <button class="play-corner" aria-label="播放视频"><i>▶</i></button>
+        </div>
+        <div class="body"><span class="tag">AI 漫剧</span><h4>《谁敢惹我指环王》</h4>
+          <p>北欧神话题材：孤儿一路逆袭成阿斯加德之王（From Orphan to King of Asgard）；AI 漫剧系列成片。</p></div>
+      </article>
+
+      <!-- TT 展示类买量素材 -->
+      <article class="card vcard qj-portrait">
+        <div class="media">
+          <img class="poster zoom" src="assets/tt-ua-cover.jpg" alt="TT 展示类买量素材封面" data-zoom="assets/tt-ua-cover.jpg">
+          <video style="display:none" controls preload="none" poster="assets/tt-ua-cover.jpg"><source src="videos/tt-ua.mp4" type="video/mp4"></video>
+          <button class="play-corner" aria-label="播放视频"><i>▶</i></button>
+        </div>
+        <div class="body"><span class="tag">买量素材</span><h4>TT 展示类买量视频</h4>
+          <p>海外买量投放素材：展示类玩法演绎，竖版 9:16 信息流规格，30 秒完整卖点节奏。</p></div>
+      </article>
+    </div>
+
+    <!-- 麻雀小姐 · 数据复盘 -->
+    <div class="hx-block">
+      <div class="hx-head">
+        <span class="hx-badge">Data</span>
+        <div>
+          <h4>数据复盘 · 爆款潜力验证 ——《麻雀小姐》</h4>
+          <p>平台测试数据 + GPT 深度分析：开场留人、参与承接、追看潜力三个维度均优于同赛道均值</p>
+        </div>
+      </div>
+      <div class="mq-body">
+        <div class="mq-kpis">
+          <div class="kpi"><b>93.33<i>%</i></b><span>前 10 秒保存率</span><em>开场吸引极强，短时间抓住用户注意力</em></div>
+          <div class="kpi"><b>80.36<i>%</i></b><span>主动参与率</span><em>核心指标 · 用户互动意愿高</em></div>
+          <div class="kpi"><b>71.11<i>%</i></b><span>首集完播率</span><em>核心指标 · 首集承接稳定，追看意愿强</em></div>
+          <div class="kpi"><b>85<i>分</i></b><span>GPT 综合评分</span><em>信息差设计 9.0 分 · 单点爆发力 8.7 分</em></div>
+        </div>
+        <p class="mq-verdict">综合判断：该剧在主动参与、首集承接及持续追看维度均表现优异，心智数据亮眼，是本轮测试中表现更稳定、更具上线放大价值的剧集，具备较强的市场竞争力。</p>
+        <div class="mq-shots">
+          <img class="zoom" src="assets/mqxj-retention.png" alt="《麻雀小姐》前 10 秒保存率 93.33%" data-zoom="assets/mqxj-retention.png">
+          <img class="zoom" src="assets/mqxj-data1.png" alt="《麻雀小姐》主动参与率 80.36%、首集完播率 71.11%" data-zoom="assets/mqxj-data1.png">
+          <img class="zoom" src="assets/mqxj-data2.png" alt="《麻雀小姐》GPT 深度分析评分 85：信息差设计 9.0 分" data-zoom="assets/mqxj-data2.png">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 千境 -->
+  <div class="cat">
+    <div class="cat-head"><span class="cnum en">B</span><h3>千境传媒 · 账号运营</h3></div>
+    <div class="grid align-start">
+      <article class="card vcard qj-portrait">
+        <div class="media"><a href="https://v.douyin.com/x1RMmUG0dTg/" target="_blank" rel="noopener" title="打开抖音查看 北湖生态公园 主页"><img class="poster" src="assets/douyin-beihu.jpg" alt="北湖生态公园 抖音主页数据截图"></a></div>
+        <div class="body"><span class="tag">账号运营</span><h4>北湖生态公园 抖音官方账号</h4>
+          <p>融合热点创意与趣味表达打造年轻化内容；粉丝 18.2 万，单条均赞 1000+，互动 20 万+。点击图片直达抖音主页。</p>
+          <div class="vid-chips">
+            <button class="vid-chip" data-video="videos/beihu-youlai.mp4" data-poster="assets/douyin-beihu.jpg"><i>▶</i>视频作品 ·《北湖由来》</button>
+          </div></div>
+      </article>
+      <article class="card vcard qj-portrait">
+        <div class="media"><a href="https://v.douyin.com/zgwyXr13Sg8/" target="_blank" rel="noopener" title="打开抖音查看 行走川藏 主页"><img class="poster" src="assets/douyin-chuanzang.jpg" alt="行走川藏 抖音主页数据截图"></a></div>
+        <div class="body"><span class="tag">账号运营</span><h4>行走川藏 抖音账号</h4>
+          <p>深耕川西文旅垂直赛道，挖掘小众路线、人文纪实、专业讲解；粉丝 12.5 万，多次获文旅流量扶持。点击图片直达抖音主页。</p>
+          <div class="vid-chips">
+            <button class="vid-chip" data-video="videos/chuanxi-luxian.mp4" data-poster="assets/douyin-chuanzang.jpg"><i>▶</i>视频作品 · 川西宝藏路线</button>
+          </div></div>
+      </article>
+      <article class="card vcard qj-portrait">
+        <div class="media"><a href="https://v.douyin.com/SzM4dPjeZyE/" target="_blank" rel="noopener" title="打开抖音查看 东部新区生活圈 主页"><img class="poster" src="assets/douyin-dongbu.jpg" alt="东部新区生活圈 抖音主页数据截图"></a></div>
+        <div class="body"><span class="tag">账号运营</span><h4>东部新区生活圈</h4>
+          <p>成都东部新区本地生活官方号：粉丝 4.7 万、获赞 8.5 万；世园会系列置顶爆款单条最高 299 万播放，「距世园会开幕 10 天」48.3 万。点击图片直达抖音主页。</p>
+          <div class="vid-chips">
+            <button class="vid-chip" data-video="videos/shiyuanhui-10d.mp4" data-poster="assets/douyin-dongbu.jpg"><i>▶</i>世园会倒计时 10 天</button>
+            <button class="vid-chip" data-video="videos/xiayizhan-futian.mp4"><i>▶</i>下一站福田 · 街道宣传</button>
+            <button class="vid-chip" data-video="videos/yangma-wenlv.mp4"><i>▶</i>养马街道 · 文旅宣传</button>
+          </div></div>
+      </article>
+    </div>
+
+    <!-- 红星新闻 · 策划案与品牌宣传片落地 -->
+    <div class="hx-block">
+      <div class="hx-head">
+        <span class="hx-badge">红星新闻</span>
+        <div>
+          <h4>策划案 × 品牌宣传片落地</h4>
+          <p>微信视频号品牌定制内容：从剧情脚本策划到拍摄成片的完整落地</p>
+        </div>
+      </div>
+      <div class="hx-feature">
+        <figure class="hx-cover hx-playable">
+          <img src="assets/hongxing-cover.jpg" alt="红星新闻视频号《青岛原浆·贵妃穿越》视频封面">
+          <video style="display:none" controls preload="none" poster="assets/hongxing-cover.jpg"><source src="videos/hongxing-qingdao.mp4" type="video/mp4"></video>
+          <span class="play"><i>▶</i></span>
+        </figure>
+        <div class="hx-info">
+          <h5>《穿越千年，只为这一口"鲜"快》<br>青岛原浆中秋营销片</h5>
+          <p>以"贵妃穿越现代遇好友"的奇幻反差剧情，演绎青岛原浆「7 天鲜活」的严苛新鲜标准与 30 分钟冷链速达；古代"八百里加急"与现代"手机点单"的对照落点于品牌价值——人人都能轻松拥有"贵妃级"新鲜。落版引导美团 / 饿了么 / 抖音闪送搜索下单。</p>
+          <div class="hx-meta">渠道：红星新闻 · 微信视频号 ｜ 职责：策划 + 脚本</div>
+          <a class="hx-dl" href="docs/hongxing-qingdao-plan.pdf" target="_blank">📄 查看策划案（剧情脚本 · 在线预览）</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 明月村 -->
+  <div class="cat">
+    <div class="cat-head"><span class="cnum en">C</span><h3>明月村 · 文旅内容</h3></div>
+    <div class="grid">
+      <article class="card vcard qj-portrait">
+        <div class="media"><img class="poster zoom" src="assets/mingyue-cover.jpg" alt="明月村 民宿推广反转剧情短视频 封面" data-zoom="assets/mingyue-cover.jpg"><video style="display:none" controls preload="none" poster="assets/mingyue-cover.jpg"><source src="videos/mingyue.mp4" type="video/mp4"></video><button class="play-corner" aria-label="播放视频"><i>▶</i></button></div>
+        <div class="body"><span class="tag">文旅内容</span><h4>明月村 民宿推广 · 反转剧情</h4>
+          <p>明月村 民宿推广反转剧情短视频；同步运营「明月村村草书记」抖音 0-1，1 个月月播放 0→6.5 万、粉丝 0→969，单条播放超 10 万，A/B 测试点击率 26%→43%。</p></div>
+      </article>
+    </div>
+  </div>
+
+  <!-- 美呗 -->
+  <div class="cat">
+    <div class="cat-head"><span class="cnum en">D</span><h3>美呗 · 医美账号运营</h3></div>
+    <div class="grid align-start">
+      <article class="card mb-portrait">
+        <div class="media"><img class="zoom" src="assets/meibei-zhushe.jpg" alt="苏州唐婷 注射美学 小红书主页截图" data-zoom="assets/meibei-zhushe.jpg"></div>
+        <div class="body"><span class="tag">0-1 冷启动</span><h4>苏州唐婷 注射美学 小红书</h4>
+          <p>垂直于医美注射美学的内容体系搭建，内容 + 投流联动；2 个月 0-1 冷启动涨粉 3000，转化精准客资 900+。</p></div>
+      </article>
+      <article class="card mb-wide">
+        <div class="media"><img class="zoom" src="assets/meibei-data.jpg" alt="巨量引擎广告投放数据与受众画像截图" data-zoom="assets/meibei-data.jpg"></div>
+        <div class="body"><span class="tag">投流 × 口播案例</span><h4>医美科普 · 机构与医生选择</h4>
+          <p>上图投流数据 · 医美医生 IP 0-1 打造：打造了点击量超百万的爆款视频；累计投放消耗 13 万元，实现超 252 万次曝光，转化意向用户 896 人，ROI 约为 3.5，实现低成本高效获客。</p>
+          <div class="vid-cover vid-inline" role="button" tabindex="0" aria-label="播放视频：医美科普口播">
+            <img src="assets/meibei-koubo-cover.jpg" alt="医美科普口播短视频封面：医生信息与口碑案例">
+            <span class="pc">▶</span>
+            <video style="display:none" controls preload="none" poster="assets/meibei-koubo-cover.jpg"><source src="videos/meibei-koubo.mp4" type="video/mp4"></video>
+          </div>
+          <p class="mb-cap">↓ 医美口播视频案例（点击封面播放）</p></div>
+      </article>
+      <article class="card mb-portrait">
+        <div class="media"><img class="zoom" src="assets/meibei-dongtai.jpg" alt="苏州唐婷 动态美学 小红书主页截图" data-zoom="assets/meibei-dongtai.jpg"></div>
+        <div class="body"><span class="tag">IP 矩阵</span><h4>苏州唐婷 动态美学 小红书</h4>
+          <p>与注射美学号并行的姐妹号矩阵：主打「原生动细节动态美」，面部抗衰 / 轮廓固定 / 韧带提升；粉丝 1684，获赞与收藏 3896。</p></div>
+      </article>
+    </div>
+  </div>
+
+  <!-- 其他剪辑作品 -->
+  <div class="cat">
+    <div class="cat-head"><span class="cnum en">E</span><h3>其他剪辑作品</h3></div>
+    <div class="grid align-start">
+      <article class="card vcard">
+        <div class="media">
+          <img class="poster" src="assets/txns-qunxiang-cover.jpg" alt="腾讯新闻《我有一个想法》人物群像预告 封面">
+          <video style="display:none" controls preload="none" poster="assets/txns-qunxiang-cover.jpg"><source src="videos/txns-qunxiang.mp4" type="video/mp4"></video>
+          <span class="play"><i>▶</i></span>
+        </div>
+        <div class="body"><span class="tag">栏目剪辑</span><h4>腾讯新闻《我有一个想法》· 人物群像预告</h4>
+          <p>人物群像篇预告剪辑，多人物故事线交织的悬念式开篇，2′02″。</p></div>
+      </article>
+      <article class="card vcard">
+        <div class="media">
+          <img class="poster" src="assets/txns-yinfa-cover.jpg" alt="腾讯新闻《我有一个想法》银发摇滚乐队篇 封面">
+          <video style="display:none" controls preload="none" poster="assets/txns-yinfa-cover.jpg"><source src="videos/txns-yinfa.mp4" type="video/mp4"></video>
+          <span class="play"><i>▶</i></span>
+        </div>
+        <div class="body"><span class="tag">栏目剪辑</span><h4>腾讯新闻《我有一个想法》· 银发摇滚乐队篇</h4>
+          <p>银发摇滚乐队人物篇正片剪辑，音乐节点卡点与情绪段落铺陈，1′16″。</p></div>
+      </article>
+      <article class="card vcard">
+        <div class="media">
+          <img class="poster" src="assets/dubai-airshow-cover.jpg" alt="俄罗斯勇士飞行表演队 迪拜航展快剪短片 封面">
+          <video style="display:none" controls preload="none" poster="assets/dubai-airshow-cover.jpg"><source src="videos/dubai-airshow.mp4" type="video/mp4"></video>
+          <span class="play"><i>▶</i></span>
+        </div>
+        <div class="body"><span class="tag">快剪短片</span><h4>俄罗斯勇士飞行表演队 · 迪拜航展快剪</h4>
+          <p>飞行表演素材节奏快剪，卡点转场呈现战机动态张力，25″。</p></div>
+      </article>
+      <article class="card vcard">
+        <div class="media">
+          <img class="poster" src="assets/xueshan-hunli-cover.jpg" alt="婚礼旅拍预告《爱在黄昏日落时》雪山婚礼短片 封面">
+          <video style="display:none" controls preload="none" poster="assets/xueshan-hunli-cover.jpg"><source src="videos/xueshan-hunli.mp4" type="video/mp4"></video>
+          <span class="play"><i>▶</i></span>
+        </div>
+        <div class="body"><span class="tag">婚礼旅拍预告</span><h4>《爱在黄昏日落时》· 雪山婚礼短片</h4>
+          <p>雪山婚礼仪式影像剪辑，黄昏光线下的情绪叙事成片，31″。</p></div>
+      </article>
+    </div>
+  </div>
+
+  <!-- 获奖 -->
+  <div class="cat">
+    <div class="cat-head"><span class="cnum en">F</span><h3>参赛获奖 · AIGC / 微电影 / 策划案</h3></div>
+    <div class="grid align-start">
+      <!-- AIGC -->
+      <article class="card vcard">
+        <div class="media">
+          <img class="poster" src="assets/fenbide.png" alt="芬必得">
+          <video style="display:none" controls preload="none" poster="assets/fenbide.png"><source src="videos/fenbide.mp4" type="video/mp4"></video>
+          <span class="play"><i>▶</i></span>
+        </div>
+        <div class="body"><span class="tag">AIGC 获奖</span><h4>芬必得 · 痛到一千年以后</h4>
+          <p class="award">2025.12 第24届上海国际大学生广告节 视频类 二等奖（赫力昂·布洛芬）</p>
+          <img class="zoom cert" src="assets/cert-fenbide-award.jpg" alt="上海国际大学生广告节二等奖荣誉证书" data-zoom="assets/cert-fenbide-award.jpg">
+          <p>AIGC 创意广告片：头痛穿越千年的脑洞叙事，配拼贴分镜脚本。</p></div>
+      </article>
+      <!-- 微电影 -->
+      <article class="card vcard">
+        <div class="media">
+          <img class="poster" src="assets/lianjie-cover.jpg" alt="廉洁教育 · 清白人生">
+          <video style="display:none" controls preload="none" poster="assets/lianjie-cover.jpg"><source src="videos/lianjie.mp4" type="video/mp4"></video>
+          <span class="play"><i>▶</i></span>
+        </div>
+        <div class="body"><span class="tag">微电影 获奖</span><h4>廉洁教育 · 清白人生</h4>
+          <p class="award">2024.11 第33届时报金犊奖 二等奖（亚太地区）（永庆房屋）</p>
+          <img class="zoom cert" src="assets/cert-jindu.jpg" alt="时报金犊奖二等奖证书" data-zoom="assets/cert-jindu.jpg">
+          <p>剧情短片《Ta 说廉洁》：以「爱莲说」意象诠释廉洁美德与清白人生。</p></div>
+      </article>
+      <article class="card vcard">
+        <div class="media">
+          <img class="poster" src="assets/wahaha-cover.jpg" alt="娃哈哈 大广赛获奖短视频">
+          <video style="display:none" controls preload="none" poster="assets/wahaha-cover.jpg"><source src="videos/wahaha.mp4" type="video/mp4"></video>
+          <span class="play"><i>▶</i></span>
+        </div>
+        <div class="body"><span class="tag">微电影 获奖</span><h4>娃哈哈 · 吸得到的童年</h4>
+          <p class="award">2026.06 第18届全国大学生广告艺术大赛 短视频广告 一等奖</p>
+          <img class="zoom cert" src="assets/cert-wahaha.jpg" alt="大广赛短视频广告一等奖证书" data-zoom="assets/cert-wahaha.jpg">
+          <p>《吸得到的童年》：AD 钙奶童年记忆 × 当代快乐观察，怀旧反差叙事。</p></div>
+      </article>
+      <article class="card vcard qj-portrait">
+        <div class="media">
+          <img class="poster" src="assets/xingqi-cover.jpg" alt="兴齐眼药 · 别再让角膜emo了">
+          <video style="display:none" controls preload="none" poster="assets/xingqi-cover.jpg"><source src="videos/xingqi.mp4" type="video/mp4"></video>
+          <span class="play"><i>▶</i></span>
+        </div>
+        <div class="body"><span class="tag">微电影 获奖</span><h4>兴齐眼药 · 别再让角膜「emo」了</h4>
+          <p class="award">2026.06 第35届时报金犊奖 优秀奖（亚太地区）（兴齐眼药）</p>
+          <img class="zoom cert" src="assets/cert-xingqi.jpg" alt="时报金犊奖优秀奖证书" data-zoom="assets/cert-xingqi.jpg">
+          <p>全球华人青年护眼行动公益创作奖获奖作品：拼贴动画演绎用眼焦虑，呼吁「给眼睛做个 SPA」。</p></div>
+      </article>
+      <article class="card vcard">
+        <div class="media">
+          <img class="poster" src="assets/arcfox-film-cover.jpg" alt="极狐T1汽车宣传短片《我们的群像乌托邦》封面">
+          <video style="display:none" controls preload="none" poster="assets/arcfox-film-cover.jpg"><source src="videos/arcfox-film.mp4" type="video/mp4"></video>
+          <span class="play"><i>▶</i></span>
+        </div>
+        <div class="body"><span class="tag">品牌短片 获奖</span><h4>极狐T1 · 我们的群像乌托邦</h4>
+          <p class="award">第五届粤港澳大学生国际广告节 影像类 优秀奖（北汽极狐）</p>
+          <img class="zoom cert" src="assets/cert-yuegangao.jpg" alt="粤港澳大学生国际广告节北汽极狐优秀奖证书" data-zoom="assets/cert-yuegangao.jpg">
+          <p>极狐T1 汽车品牌宣传短视频《我们的群像乌托邦》：群像叙事呈现乌托邦式出行愿景，点击上方即可播放。</p></div>
+      </article>
+      <!-- 策划案（未获奖，单独成卡） -->
+      <article class="card">
+        <div class="media"><img class="zoom" src="assets/arcfox-t1-plan.jpg" alt="极狐T1营销策划案《几乎生活在乌托邦》封面" data-zoom="assets/arcfox-t1-plan.jpg"></div>
+        <div class="body"><span class="tag">营销策划案</span><h4>极狐T1 · 几乎生活在乌托邦</h4>
+          <p>参赛营销策划案（23 页全案）：从人群洞察到传播落地，完整策略推导与执行规划。</p>
+          <a class="doc-dl" href="docs/arcfox-t1-plan.pdf" target="_blank">▸ 查看策划案 PDF（23 页 · 在线预览）</a></div>
+      </article>
+      <article class="card">
+        <div class="media"><img class="zoom" src="assets/yumeijing-plan.jpg" alt="郁美净《滤净去哪儿》营销策划案封面" data-zoom="assets/yumeijing-plan.jpg"></div>
+        <div class="body"><span class="tag">营销策划案</span><h4>郁美净 · 滤净去哪儿</h4>
+          <p class="award">2025.12 中国大学生广告艺术节学院奖 营销策划类 入围</p>
+          <img class="zoom cert" src="assets/cert-yumeijing.jpg" alt="学院奖营销策划入围证书" data-zoom="assets/cert-yumeijing.jpg">
+          <p>参赛营销策划案（42 页全案）：滤净场景洞察 × 创意传播玩法，完整策略推导与执行规划。</p>
+          <a class="doc-dl" href="docs/yumeijing-plan.pdf" target="_blank">▸ 查看策划案 PDF（42 页 · 在线预览）</a></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 其他奖项 ===================== -->
+<section class="section" id="awards-more">
+  <div class="cat">
+    <div class="cat-head"><span class="cnum en">G</span><h3>其他奖项 · 获奖证书</h3></div>
+    <div class="grid align-start">
+      <!-- 金犊奖 · 永庆房屋《Ta说诚实》 -->
+      <article class="card cert-card">
+        <div class="media"><img class="zoom" src="assets/cert-ta-2nd.jpg" alt="第33届时报金犊奖二等奖证书《Ta说诚实》" data-zoom="assets/cert-ta-2nd.jpg"></div>
+        <div class="body"><span class="tag">品牌形象广告设计</span><h4>永庆房屋 · Ta 说诚实</h4>
+          <p class="award">2024.11 第33届时报金犊奖（2024大陸賽區）永庆房屋「先诚实、再成交」品牌形象广告设计奖 二等奖</p>
+          <p>同作品另获三项入围：</p>
+          <div class="cert-row">
+            <img class="zoom cert" src="assets/cert-ta-fi-brand.jpg" alt="品牌形象广告设计奖入围证书" data-zoom="assets/cert-ta-fi-brand.jpg">
+            <img class="zoom cert" src="assets/cert-ta-fi-photo.jpg" alt="技术类-摄影摄像项入围证书" data-zoom="assets/cert-ta-fi-photo.jpg">
+            <img class="zoom cert" src="assets/cert-ta-fi-copy.jpg" alt="技术类-文案对白项入围证书" data-zoom="assets/cert-ta-fi-copy.jpg">
+          </div>
+        </div>
+      </article>
+      <!-- 学院奖 · 优秀类 -->
+      <article class="card cert-card">
+        <div class="media"><img class="zoom" src="assets/cert-yunnanbaiyo.jpg" alt="云南白药营销策划优秀类证书" data-zoom="assets/cert-yunnanbaiyo.jpg"></div>
+        <div class="body"><span class="tag">营销策划</span><h4>云南白药 · 这口「牙」，我说了才算</h4>
+          <p class="award">2025.07 中国大学生广告艺术节学院奖 2025春季征集活动 营销策划 优秀类</p>
+        </div>
+      </article>
+      <article class="card cert-card">
+        <div class="media"><img class="zoom" src="assets/cert-lanju-tiantang.jpg" alt="榄菊视频类优秀类证书（但愿天堂没榄菊）" data-zoom="assets/cert-lanju-tiantang.jpg"></div>
+        <div class="body"><span class="tag">短视频</span><h4>榄菊 · 但愿天堂没榄菊</h4>
+          <p class="award">2024.08 中国大学生广告艺术节学院奖 2024春季征集大赛 视频类 优秀类</p>
+        </div>
+      </article>
+      <article class="card cert-card">
+        <div class="media"><img class="zoom" src="assets/cert-lanju-qingshuang.jpg" alt="榄菊视频类优秀类证书（清爽的回忆）" data-zoom="assets/cert-lanju-qingshuang.jpg"></div>
+        <div class="body"><span class="tag">短视频</span><h4>榄菊 · 清爽的回忆</h4>
+          <p class="award">2026.08 中国大学生广告艺术节学院奖 2026春季征集大赛 视频类（榄菊实效创意）优秀类</p>
+        </div>
+      </article>
+      <article class="card cert-card">
+        <div class="media"><img class="zoom" src="assets/cert-fumeisong.jpg" alt="芙美松平面广告入围类证书" data-zoom="assets/cert-fumeisong.jpg"></div>
+        <div class="body"><span class="tag">平面广告</span><h4>芙美松 · 「果」断不言从</h4>
+          <p class="award">2026.08 中国大学生广告艺术节学院奖 2026春季征集大赛 平面广告 入围类</p>
+        </div>
+      </article>
+      <!-- 校园与综合荣誉 -->
+      <article class="card cert-card">
+        <div class="media"><img class="zoom" src="assets/cert-jiaochuang.jpg" alt="骄创杯三等奖证书" data-zoom="assets/cert-jiaochuang.jpg"></div>
+        <div class="body"><span class="tag">就业创业</span><h4>「赢在成都 · 创在金牛」骄创杯大赛</h4>
+          <p class="award">2025.04 数字经济、数字文创就业创业大赛暨「骄创杯」大赛 三等奖</p>
+          <p>参赛项目：这企云通一站式校园就业工作室。</p>
+        </div>
+      </article>
+      <article class="card cert-card">
+        <div class="media"><img class="zoom" src="assets/cert-chuanbo.jpg" alt="传播杯作品创意大赛二等奖证书" data-zoom="assets/cert-chuanbo.jpg"></div>
+        <div class="body"><span class="tag">校园创作</span><h4>传播杯 · 作品创意大赛</h4>
+          <p class="award">2025.10 四川传媒学院传播与经管学院第四届「传播杯」作品创意大赛 二等奖</p>
+        </div>
+      </article>
+      <article class="card cert-card">
+        <div class="media"><img class="zoom" src="assets/cert-fenbide-award.jpg" alt="第24届上海国际大学生广告节 二等奖荣誉证书（颁奖盛典现场）" data-zoom="assets/cert-fenbide-award.jpg"></div>
+        <div class="body"><span class="tag">AIGC 获奖</span><h4>芬必得《痛到一千年以后》· 领奖现场</h4>
+          <p class="award">2025.12 第24届上海国际大学生广告节 视频类 二等奖（赫力昂·布洛芬）</p>
+          <div class="cert-row">
+            <img class="zoom cert" src="assets/cert-fenbide-stage.jpg" alt="颁奖盛典领奖合影 FUN开造" data-zoom="assets/cert-fenbide-stage.jpg">
+          </div>
+          <p>上图：颁奖盛典暨闭幕仪式现场荣誉证书；下图：FUN 开造领奖舞台合影。</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 优势 ===================== -->
+<section class="section" id="advantages">
+  <span class="eyebrow"><b>03 /</b> CAPABILITIES</span>
+  <h2 class="sec-title">个人优势</h2>
+  <div class="adv-grid">
+    <div class="adv"><div class="ico">🎬</div><h4>海外 AI 内容</h4>
+      <p>参与 IGG AI 漫剧《非自愿心动》制作，ReelShort 创意数 1.5w、约 460 万播放、5.78 万收藏；沉淀分镜提示词 SOP，将单集制作周期缩短至约 1 天。</p></div>
+    <div class="adv"><div class="ico">📈</div><h4>0-1 账号运营</h4>
+      <p>操盘多个 10w+ 级账号，全矩阵累计粉丝 40 万+：北湖生态公园（18.2 万粉）、行走川藏（12.5 万粉）、本地生活号（1.2 万粉）；医美账号 60 天 0-1 涨粉 3000+，252 万曝光、1000+ 意向用户。</p></div>
+    <div class="adv"><div class="ico">✍️</div><h4>内容创作与策划</h4>
+      <p>强网感与内容策划能力突出，获多个策划类全国奖项；累计产出短视频 1700+ 条、累计互动 1000 万+；「明月村村草书记」1 个月月播放 0→6.5 万、单条超 10 万。</p></div>
+    <div class="adv"><div class="ico">🤖</div><h4>AI 工具与工作流</h4>
+      <p>熟练 Codex、Cowork、ChatGPT 等 AI 工具完成研究、分析、原型与执行；能借助 AI 快速写 SQL、处理数据、搭 demo；自建 AI workflow 与自动化工具提升效率。</p></div>
+  </div>
+  <div class="skills">
+    <span class="sk-label">掌握技能</span>
+    <span>分镜脚本</span><span>后期剪辑</span><span>短视频策划</span><span>AI 工作流</span><span>数据分析</span><span>账号运营</span><span>视觉设计</span>
+  </div>
+</section>
+
+<!-- ===================== 联系 ===================== -->
+<section class="contact" id="contact">
+  <span class="eyebrow"><b>04 /</b> CONTACT</span>
+  <div class="big">期待与品牌、产品<br>和市场团队一起，<br><em>把内容做得更有传播力。</em></div>
+  <p>专注 AIGC 内容、新媒体运营与后期制作。</p>
+  <div class="contact-rows">
+    <a class="c-item" href="tel:18728691480"><i>📞</i>电话 <b>18728691480</b></a>
+    <button class="c-item" id="wx-copy" data-wx="Karrywy9211123" type="button"><i>💬</i>微信 <b>Karrywy9211123</b><span class="hint" id="wx-hint">点击复制</span></button>
+    <a class="c-item" href="mailto:18728691480@163.com"><i>✉️</i>邮箱 <b>18728691480@163.com</b></a>
+  </div>
+</section>
+
+<!-- ===================== 页脚 ===================== -->
+<footer class="footer">
+  <div class="links">
+    <a href="#experience">经历</a><a href="#projects">项目</a><a href="#advantages">优势</a>
+  </div>
+  <div class="en">COPYRIGHT 2026 / 王鋆 WANG YUN</div>
+  <div class="top" id="toTop">BACK TO TOP ↑</div>
+</footer>
+
+<script>
+  // 滚动玻璃导航：滚过首屏后吸顶磨砂
+  var nav=document.getElementById('nav');
+  var hero=document.getElementById('top');
+  var heroH = hero ? hero.offsetHeight*0.8 : 0;
+  function onScroll(){
+    if(window.scrollY>heroH) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize', function(){ heroH = hero ? hero.offsetHeight*0.8 : 0; });
+  onScroll();
+
+  // 回到顶部
+  document.getElementById('toTop').addEventListener('click',function(){
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+
+  // 视频卡：点击播放按钮 → 隐藏封面/占位、显示 video 并播放；支持多选集按钮（data-src 切换源）
+  document.querySelectorAll('.vcard').forEach(function(card){
+    var video=card.querySelector('video');
+    var poster=card.querySelector('img.poster');
+    var plays=card.querySelectorAll('.play, .play-corner, .play-ep');
+    if(!video || !plays.length) return;
+    function start(src){
+      if(src){
+        var source=video.querySelector('source');
+        if(source) source.setAttribute('src', src); else video.setAttribute('src', src);
+        video.load();
+      }
+      if(poster) poster.style.display='none';
+      plays.forEach(function(p){ p.style.display='none'; });
+      video.style.display='block';
+      var m = card.querySelector('.media') || card;
+      m.classList.add('video-active');
+      video.play().catch(function(){});
+    }
+    plays.forEach(function(p){
+      p.style.cursor='pointer';
+      p.addEventListener('click',function(e){
+        e.stopPropagation();
+        start(p.getAttribute('data-src'));
+      });
+    });
+  });
+
+  // 全局互斥播放：任一作品视频开始播放时，立刻暂停其他所有作品视频（首屏背景视频除外）
+  var contentVideos = Array.prototype.slice.call(document.querySelectorAll('.vcard video, .hx-playable video'));
+  contentVideos.forEach(function(v){
+    v.addEventListener('play', function(){
+      contentVideos.forEach(function(o){
+        if(o!==v && !o.paused && !o.ended) o.pause();
+      });
+    });
+  });
+
+  // 自定义控制条：移除原生 controls，改为可拖动的进度条（播放/暂停 + 进度 + 时间）
+  function fmtTime(t){
+    if(!isFinite(t)) return '0:00';
+    t = Math.floor(t); var m = Math.floor(t/60), s = t%60;
+    return m + ':' + (s<10 ? '0'+s : s);
+  }
+  document.querySelectorAll('.vcard video, .hx-playable video').forEach(function(video){
+    var media = video.closest('.media') || video.parentElement;
+    if(!media) return;
+    video.removeAttribute('controls');
+    var bar = document.createElement('div'); bar.className = 'vbar';
+    var btn = document.createElement('button'); btn.className = 'vplay'; btn.type = 'button'; btn.textContent = '❚❚'; btn.setAttribute('aria-label','播放/暂停');
+    var seek = document.createElement('input'); seek.className = 'vseek'; seek.type = 'range'; seek.min = '0'; seek.max = '100'; seek.value = '0'; seek.setAttribute('aria-label','播放进度');
+    var time = document.createElement('span'); time.className = 'vtime'; time.textContent = '0:00 / 0:00';
+    bar.appendChild(btn); bar.appendChild(seek); bar.appendChild(time);
+    media.appendChild(bar);
+
+    var dragging = false;
+    function syncIcon(){
+      btn.textContent = video.paused ? '▶' : '❚❚';
+      media.classList.toggle('video-active', !video.paused || video.currentTime > 0);
+    }
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      if(video.paused){ video.play().catch(function(){}); } else { video.pause(); }
+    });
+    seek.addEventListener('pointerdown', function(){ dragging = true; });
+    seek.addEventListener('pointerup', function(){ dragging = false; });
+    var pendingSeek = false;
+    function applySeek(){
+      var dur = (isFinite(video.duration) && video.duration > 0) ? video.duration
+              : (video.seekable && video.seekable.length ? video.seekable.end(video.seekable.length - 1) : NaN);
+      if(!isFinite(dur) || dur <= 0) return false;
+      var t = (seek.value/100) * dur;
+      try { video.currentTime = t; } catch(err){ return false; }
+      time.textContent = fmtTime(t) + ' / ' + fmtTime(dur);
+      return true;
+    }
+    seek.addEventListener('input', function(){
+      if(video.readyState === 0){
+        // 元数据尚未加载：先触发加载，loadedmetadata 后补跳
+        pendingSeek = true;
+        video.load();
+        return;
+      }
+      applySeek();
+    });
+    seek.addEventListener('change', function(){
+      if(video.readyState > 0) applySeek();
+    });
+    video.addEventListener('timeupdate', function(){
+      if(isFinite(video.duration) && video.duration > 0){
+        if(!dragging) seek.value = (video.currentTime/video.duration) * 100;
+        time.textContent = fmtTime(video.currentTime) + ' / ' + fmtTime(video.duration);
+      }
+    });
+    video.addEventListener('loadedmetadata', function(){
+      time.textContent = fmtTime(video.currentTime) + ' / ' + fmtTime(video.duration);
+      if(pendingSeek){ pendingSeek = false; applySeek(); }
+    });
+    video.addEventListener('seeked', function(){
+      if(isFinite(video.duration) && video.duration > 0){
+        if(!dragging) seek.value = (video.currentTime/video.duration) * 100;
+        time.textContent = fmtTime(video.currentTime) + ' / ' + fmtTime(video.duration);
+      }
+    });
+    video.addEventListener('play', syncIcon);
+    video.addEventListener('pause', syncIcon);
+    video.addEventListener('ended', function(){ btn.textContent = '▶'; });
+    syncIcon();
+  });
+
+  // 红星新闻封面：点击直接播放视频号成片
+  document.querySelectorAll('.hx-playable').forEach(function(box){
+    var video=box.querySelector('video'), play=box.querySelector('.play');
+    if(!video) return;
+    box.addEventListener('click', function(){
+      if(video.style.display!=='none') return;
+      video.style.display='block';
+      if(play) play.style.display='none';
+      box.classList.add('video-active');
+      video.play().catch(function(){});
+    });
+  });
+
+  // 经历卡片 BorderGlow：指针靠近边缘时触发跟随光标的发光（移植自 React Bits 的 BorderGlow 组件逻辑）
+  document.querySelectorAll('.tl-item').forEach(function(card){
+    card.addEventListener('pointermove', function(e){
+      var rect=card.getBoundingClientRect();
+      var x=e.clientX-rect.left, y=e.clientY-rect.top;
+      var cx=rect.width/2, cy=rect.height/2;
+      var dx=x-cx, dy=y-cy;
+      var kx=Infinity, ky=Infinity;
+      if(dx!==0) kx=cx/Math.abs(dx);
+      if(dy!==0) ky=cy/Math.abs(dy);
+      var edge=Math.min(Math.max(1/Math.min(kx,ky),0),1);
+      var angle;
+      if(dx===0 && dy===0) angle=0;
+      else { angle=Math.atan2(dy,dx)*(180/Math.PI)+90; if(angle<0) angle+=360; }
+      card.style.setProperty('--edge-proximity',(edge*100).toFixed(3));
+      card.style.setProperty('--cursor-angle',angle.toFixed(3)+'deg');
+    });
+  });
+</script>
+<!-- GSAP + ScrollTrigger（本地化，离线可用）+ 动效系统 -->
+<script src="assets/gsap.min.js" defer></script>
+<script src="assets/ScrollTrigger.min.js" defer></script>
+<script src="assets/anim.js" defer></script>
+<!-- AeroShards 背景组件（React + WebGPU）；装饰层，不在首屏关键路径，首屏资源加载完且浏览器空闲后再注入 693KB 脚本 -->
+<script>
+  function __loadAero(){
+    var s=document.createElement('script'); s.src='assets/aeroshards-bg.js'; s.defer=true;
+    document.head.appendChild(s);
+  }
+  window.addEventListener('load', function(){
+    if (window.requestIdleCallback) requestIdleCallback(__loadAero, {timeout:2500});
+    else setTimeout(__loadAero, 300);
+  });
+</script>
+
+<!-- 点击图片放大灯箱 -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lb-close" id="lbClose" aria-label="关闭">✕</button>
+  <img id="lbImg" src="" alt="放大预览">
+</div>
+<script>
+  (function(){
+    var box=document.getElementById('lightbox'),
+        lbImg=document.getElementById('lbImg'),
+        lbClose=document.getElementById('lbClose');
+    function open(src){
+      if(!src) return;
+      // 先加载/解码新图，成功后再亮起灯箱——避免出现“点开是黑的”空窗
+      lbImg.style.opacity='0';
+      lbImg.src=src;
+      var done=false;
+      function once(){ if(done) return; done=true; lbImg.style.opacity='1'; box.classList.add('open'); box.setAttribute('aria-hidden','false'); }
+      if(lbImg.decode && lbImg.decode.call){ lbImg.decode().then(once, once); }
+      else if(lbImg.complete){ once(); }
+      else { lbImg.onload=once; lbImg.onerror=once; }
+    }
+    function close(){ box.classList.remove('open'); box.setAttribute('aria-hidden','true'); }
+    // 事件委托：任意 zoom 图片（含后插入的）都能打开灯箱
+    document.addEventListener('click', function(e){
+      var t=e.target;
+      while(t && t!==document){
+        if(t.tagName==='IMG' && t.classList.contains('zoom') && t.getAttribute('data-zoom')){ open(t.getAttribute('data-zoom')); return; }
+        t=t.parentNode;
+      }
+    });
+    // 仅点击背景空白处关闭；点击大图本身不再误关
+    box.addEventListener('click', function(e){ if(e.target===box) close(); });
+    lbClose.addEventListener('click', function(e){ e.stopPropagation(); close(); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') close(); });
+  })();
+</script>
+<!-- 视频作品弹窗（账号卡「视频作品」小图标点击弹出） -->
+<div class="vmodal" id="vmodal" aria-hidden="true">
+  <button class="vm-close" id="vmClose" aria-label="关闭视频">✕</button>
+  <video id="vmVideo" controls playsinline preload="none"></video>
+</div>
+<script>
+  (function(){
+    var box=document.getElementById('vmodal'),
+        video=document.getElementById('vmVideo'),
+        closeBtn=document.getElementById('vmClose');
+    function open(src, poster){
+      if(poster) video.poster=poster;
+      video.src=src;
+      box.classList.add('open'); box.setAttribute('aria-hidden','false');
+      video.play().catch(function(){});
+    }
+    function close(){
+      box.classList.remove('open'); box.setAttribute('aria-hidden','true');
+      video.pause(); video.removeAttribute('src'); video.load();
+    }
+    document.querySelectorAll('.vid-chip').forEach(function(chip){
+      chip.addEventListener('click', function(e){
+        e.stopPropagation();
+        open(chip.getAttribute('data-video'), chip.getAttribute('data-poster')||'');
+      });
+    });
+    box.addEventListener('click', function(e){ if(e.target===box) close(); });
+    closeBtn.addEventListener('click', function(e){ e.stopPropagation(); close(); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape' && box.classList.contains('open')) close(); });
+  })();
+  // 卡内直接播放（不弹窗）：如美呗口播案例
+  (function(){
+    document.querySelectorAll('.vid-inline').forEach(function(box){
+      var video=box.querySelector('video'), img=box.querySelector('img'), pc=box.querySelector('.pc');
+      if(!video) return;
+      function start(){
+        if(img) img.style.display='none';
+        if(pc) pc.style.display='none';
+        video.style.display='block';
+        video.play().catch(function(){});
+      }
+      box.addEventListener('click', start);
+      box.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); start(); } });
+    });
+  })();
+  (function(){
+    var btn=document.getElementById('wx-copy');
+    if(!btn) return;
+    btn.addEventListener('click', function(){
+      var wx=btn.getAttribute('data-wx');
+      var done=function(){ var h=document.getElementById('wx-hint'); if(h){ h.textContent='已复制 ✓'; setTimeout(function(){ h.textContent='点击复制'; }, 2000); } };
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(wx).then(done).catch(function(){});
+      }else{
+        var t=document.createElement('textarea'); t.value=wx; document.body.appendChild(t); t.select();
+        try{ document.execCommand('copy'); done(); }catch(e){}
+        document.body.removeChild(t);
+      }
+    });
+  })();
+</script>
+</body>
+</html>
