@@ -51,7 +51,7 @@
   /* ---------- Hero ---------- */
   .hero{position:relative; min-height:100vh; display:flex; flex-direction:column; justify-content:flex-end;
     padding:0 64px 72px; overflow:hidden;}
-  .hero .bg{position:absolute; inset:0; background:url("assets/hero-bg.png") center/cover no-repeat; z-index:-3; object-fit:cover; width:100%; height:100%;}
+  .hero .bg{position:absolute; inset:0; background:url("assets/hero-dls-poster.jpg") center/cover no-repeat; z-index:-3; object-fit:cover; width:100%; height:100%;}
   /* 顶部 / 底部 / 左侧压暗遮罩，保证文字可读，并透出首屏影像 */
   .hero .mask{position:absolute; inset:0; z-index:-2;
     background:
@@ -78,6 +78,18 @@
   .hero .slogan em{color:var(--red); font-style:normal;}
   .hero .foot{position:absolute; left:64px; right:64px; bottom:22px; display:flex; justify-content:space-between;
     font-size:12px; letter-spacing:.14em; color:var(--gray2); text-transform:uppercase;}
+  /* Hero 背景视频声音开关：在首屏可视时由 JS 控制开/关，划走自动静音 */
+  .hero .sound-toggle{position:absolute; top:24px; right:24px; z-index:6;
+    width:46px; height:46px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    background:rgba(10,11,13,.42); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,.28); color:#fff; font-size:19px; line-height:1; cursor:pointer;
+    transition:background .2s ease, transform .2s ease, border-color .2s ease;}
+  .hero .sound-toggle:hover{background:rgba(10,11,13,.62); transform:scale(1.06); border-color:rgba(255,255,255,.5);}
+  .hero .sound-toggle.muted{border-color:rgba(255,255,255,.18);}
+  .hero .sound-toggle.pending::after{content:""; position:absolute; inset:-4px; border-radius:50%;
+    border:1px solid rgba(255,255,255,.35); animation:sndPulse 2.4s ease-out infinite;}
+  @keyframes sndPulse{0%{transform:scale(.85); opacity:.7;} 70%{transform:scale(1.25); opacity:0;} 100%{opacity:0;}}
+  @media (max-width:600px){ .hero .sound-toggle{top:16px; right:16px; width:42px; height:42px; font-size:17px;} }
 
   /* Hero 标题逐行遮罩揭开容器 */
   .hero h1 .line{display:block; overflow:hidden; padding-bottom:.08em; margin-bottom:-.08em;}
@@ -193,7 +205,7 @@
   }
 
   .tl-co{font-size:18px; font-weight:500;}
-  .tl-logo{display:block; width:64px; height:64px; object-fit:cover; border-radius:12px; margin-top:10px; border:1px solid rgba(255,255,255,.12); background:#fff;}
+  .tl-logo{display:block; height:96px; width:auto; max-width:280px; object-fit:contain; border-radius:14px; margin-top:14px; border:1px solid rgba(255,255,255,.12); background:#fff;}
   .tl-sub{display:inline-block; margin-left:8px; padding:2px 8px; border-radius:99px; vertical-align:2px;
     font-size:11px; font-weight:400; letter-spacing:.05em; color:var(--red2); border:1px solid rgba(232,144,140,.35);}
   .tl-date{font-size:13px; color:var(--gray2); margin-top:6px; letter-spacing:.04em;}
@@ -448,7 +460,8 @@
 
 <!-- ===================== Hero ===================== -->
 <header class="hero" id="top" data-page-node-id="8ZG2m9qn2Oe3RwsVzU8Gvp">
-  <video class="bg" autoplay="" muted="" loop="" playsinline="" preload="auto" poster="assets/hero-bg.png" data-page-node-id="NPoROzt3Wc4JjbOXtTIhy3" style="translate: none; rotate: none; scale: none; transform: translate(0%, 7%) translate(0px, 62.3px) scale(1.25, 1.25);"><source src="videos/hero-suit.mp4" type="video/mp4" data-page-node-id="7ISApB2EiannkbFFZdK0kU"></video>
+  <video class="bg" autoplay="" muted="" loop="" playsinline="" preload="auto" poster="assets/hero-dls-poster.jpg" data-page-node-id="NPoROzt3Wc4JjbOXtTIhy3" style="translate: none; rotate: none; scale: none; transform: translate(0%, 7%) translate(0px, 62.3px) scale(1.25, 1.25);"><source src="videos/hero-dls.mp4" type="video/mp4" data-page-node-id="7ISApB2EiannkbFFZdK0kU"></video>
+  <button class="sound-toggle muted" id="heroSound" type="button" aria-label="开启背景声音" title="点击开启背景声音" data-page-node-id="heroSndBtn">🔇</button>
   <div class="mask" data-page-node-id="DJWiTdEIxfaSt7Dm0D62Nk"></div>
   <div class="slogan" data-page-node-id="nleD2JpHyKBiCL91URib0h" style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px); opacity: 0.85;">视觉不是装饰，<br data-page-node-id="ViFahaBaNQbmlkzD2UOcc7"><em data-page-node-id="rxDevoSyhFH9m8UBhkCeMi">是叙事。</em></div>
   <div class="kicker" data-page-node-id="ExPDqEqgsIwyB3HJbPk1JQ" style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px); opacity: 1;">AIGC · 内容运营 · 后期制作​</div>
@@ -479,7 +492,7 @@
     <div class="tl-item" data-page-node-id="s1bXOAGWhxGaH5MbJmFrOe" style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate3d(0px, 0px, 0.01px); --edge-proximity: 81.427; --cursor-angle: 256.289deg;">
       <span class="edge-light" data-page-node-id="mXPuvruRElRbiwmgKGtEV5"></span>
       <div class="bg-inner" data-page-node-id="0cy1rlPGwGn292B9natGy9">
-        <div data-page-node-id="CC51Ctt0VFh9CpI1GbsuSJ"><div class="tl-co" data-page-node-id="kcgFZDPY6fJ5m34BRAv8DJ">IGG</div><img class="tl-logo" src="assets/logo-igg.jpg" alt="IGG" loading="lazy"><div class="tl-date en" data-page-node-id="axgz1kTCFcdlgGLkeCbC3Z">2026.06 — 至今</div></div>
+        <div data-page-node-id="CC51Ctt0VFh9CpI1GbsuSJ"><div class="tl-co" data-page-node-id="kcgFZDPY6fJ5m34BRAv8DJ">IGG</div><div class="tl-date en" data-page-node-id="axgz1kTCFcdlgGLkeCbC3Z">2026.06 — 至今</div><img class="tl-logo" src="assets/logo-igg.jpg" alt="IGG" loading="lazy"></div>
         <div data-page-node-id="gfOzbWrHCiApqyggmb4200">
           <div class="tl-role" data-page-node-id="oqHGe8vyRquXnWWLo58ZEd">AI 漫剧运营实习生</div>
           <div class="tl-desc" data-page-node-id="MdMwBo7Upf4Y88R5sSf3jv">参与海外短剧平台的 AI 漫剧制作，覆盖剧本拆解、角色设定、分镜出图、图生视频与后期剪辑；沉淀分镜提示词 SOP，将单集制作周期缩短至约 1 天，制作剧已上线 Dramabox、ReelShort、GoodShort 等海外平台，累计播放量 1.68 亿+。<br data-page-node-id="vq6XBr5AlsNoNXnhxwOssQ">参与《非自愿心动》等项目制作：该剧在 ReelShort 创意数 1.5w，获约 460 万播放、5.78 万收藏，综合开播保留、首集完播等指标名列同类型项目前列。<br data-page-node-id="44QlLg4k3pzEqv94ksmsyY">《麻雀小姐》项目：前 10 秒保存率 93.33%、主动参与率 80.36%、首集完播率 71.11%。<br data-page-node-id="bt2dyuuQ1vQCdb3A15QT7v">《谁敢惹我指环王》：创意数 1.22w，播放量约 380w，收藏量约 4 万。</div>
@@ -489,7 +502,7 @@
     <div class="tl-item" data-page-node-id="AmL66GGFErAZlsoFiFm7vj" style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate3d(0px, 0px, 0.01px); --edge-proximity: 98.892; --cursor-angle: 214.422deg;">
       <span class="edge-light" data-page-node-id="8dJXobuctTZPwAWKhZlsp8"></span>
       <div class="bg-inner" data-page-node-id="zCsAqyGIDviqo0d1qm7RHe">
-        <div data-page-node-id="BwOFvVFT21EthFFGFPdQJA"><div class="tl-co" data-page-node-id="z5FDcdWB69obedshTuTXz2">成都东麓致远文化传媒有限公司<span class="tl-sub" data-page-node-id="TgD2o4hZgw5CA4nrYaErb4">校企合作</span></div><img class="tl-logo" src="assets/logo-mingyue.png" alt="明月村" loading="lazy"><div class="tl-date en" data-page-node-id="mwtOX9WhBkfnMzRbaRGyX0">2023.12 — 2026.06</div></div>
+        <div data-page-node-id="BwOFvVFT21EthFFGFPdQJA"><div class="tl-co" data-page-node-id="z5FDcdWB69obedshTuTXz2">成都东麓致远文化传媒有限公司<span class="tl-sub" data-page-node-id="TgD2o4hZgw5CA4nrYaErb4">校企合作</span></div><div class="tl-date en" data-page-node-id="mwtOX9WhBkfnMzRbaRGyX0">2023.12 — 2026.06</div></div>
         <div data-page-node-id="jdXR5jb89D7JjPDuA2KuTJ">
           <div class="tl-role" data-page-node-id="B3ruwH2paKHG7lTFeYSLmI">编导</div>
           <div class="tl-desc" data-page-node-id="mvf0xEfltmpD4yWqNCOZbn">核心能力：短视频创意制作（PR / 剪映）、账号全周期运营、团队统筹管理、商业化内容转化、热点内容落地。<br data-page-node-id="2wSuQwqNBbtgvWS2oUW00p">负责工作室管理工作，深耕短视频策划、拍摄、剪辑到运营的全流程；兼顾内容创意与商业变现，累计产出视频 1700+ 条，全平台互动 203 万+，助力 5 个官方与品牌项目实现流量增长与转化。<br data-page-node-id="Xf9EUmxPKEYEtv4DIScZfV">内容成果：主导成都世园会官号剪辑（20+ 条视频，累计互动量 100 万+）；运营成都政务生活号涨粉 2w+，转化 35w+ 人。<br data-page-node-id="rQF4lUze6ECxueL5Wgshbf">获客转化：参与勇士夏令营招生内容制作，项目交付 200+ 条短视频，获得 3000+ 名意向用户。<br data-page-node-id="oG3zCuwTymiYIkTmSDEJCp">项目统筹：负责甲方需求对接、素材分配与内容终审。</div>
@@ -499,7 +512,7 @@
     <div class="tl-item" data-page-node-id="Hz6BU3UF9GDB0oDo41Jt7F" style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate3d(0px, 0px, 0.01px); --edge-proximity: 74.227; --cursor-angle: 309.297deg;">
       <span class="edge-light" data-page-node-id="5aqaNxyYHjMceyhpQYyIKf"></span>
       <div class="bg-inner" data-page-node-id="27tRjTIGhDglud1pInsEdq">
-        <div data-page-node-id="LGpM9QAB3Op7zCVXFqSnYQ"><div class="tl-co" data-page-node-id="Bm9LDmbQpWy4NsSFaSEDBV">美尔贝科技股份有限公司</div><img class="tl-logo" src="assets/logo-meibei.png" alt="美呗" loading="lazy"><div class="tl-date en" data-page-node-id="SzLnZa3iDLbbTbDKUBZD5i">2025.06 — 2025.08</div></div>
+        <div data-page-node-id="LGpM9QAB3Op7zCVXFqSnYQ"><div class="tl-co" data-page-node-id="Bm9LDmbQpWy4NsSFaSEDBV">美尔贝科技股份有限公司</div><div class="tl-date en" data-page-node-id="SzLnZa3iDLbbTbDKUBZD5i">2025.06 — 2025.08</div><img class="tl-logo" src="assets/logo-meibei.png" alt="美呗" loading="lazy"></div>
         <div data-page-node-id="JjjLHccbxUiyKvY1zeFD3e">
           <div class="tl-role" data-page-node-id="5KgizebGN0ZDh2Y6tREZVl">新媒体运营实习生</div>
           <div class="tl-desc" data-page-node-id="mJGc4q6rmLNQGHQhBwBBCi">小红书账号打造：从 0 到 1 打造医美医生 IP 账号，通过竞品分析确定引流方向，聚焦专业面诊、过程纪实、效果对比等消费者痛点；策划、拍摄、剪辑一系列相关视频与图文，累计产出视频 400 余条，累计互动量超 100 万。<br data-page-node-id="tCD2kMSElhcZkmshavBnEx">成果与影响：实习 60 天内账号粉丝从 0 到 3000+ 暴增；打造点击量超百万的爆款视频，累计投放消耗 13 万元，实现超 252 万次曝光，转化意向用户 896 人，ROI ≈ 3.5，实现低成本高效率获客。</div>
@@ -509,7 +522,7 @@
     <div class="tl-item" data-page-node-id="hVacjSHnwI7cxOwCkggmve" style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate3d(0px, 0px, 0.01px); --edge-proximity: 82.014; --cursor-angle: 274.467deg;">
       <span class="edge-light" data-page-node-id="lyvzMThErnsurFRNQ1DEMy"></span>
       <div class="bg-inner" data-page-node-id="4vzbDRsCRZnyM3C3uRZtoF">
-        <div data-page-node-id="ItNSW4wMboPwFZ4MpgZD55"><div class="tl-co" data-page-node-id="QtaxeWi1cQDZvgWKKAIPDw">成都明月村文化旅游发展有限公司</div><div class="tl-date en" data-page-node-id="DRHtGf4YEcHMOxdZLInR1q">2026.01 — 2026.02</div></div>
+        <div data-page-node-id="ItNSW4wMboPwFZ4MpgZD55"><div class="tl-co" data-page-node-id="QtaxeWi1cQDZvgWKKAIPDw">成都明月村文化旅游发展有限公司</div><div class="tl-date en" data-page-node-id="DRHtGf4YEcHMOxdZLInR1q">2026.01 — 2026.02</div><img class="tl-logo" src="assets/logo-mingyue.png" alt="明月村" loading="lazy"></div>
         <div data-page-node-id="Rmdt65sfggHIdW1Nenoh73">
           <div class="tl-role" data-page-node-id="1Z1yVAlnquS7bK2szxuDdJ">内容运营实习生</div>
           <div class="tl-desc" data-page-node-id="nmgB7sysuG5q8hNRh9G7nP">0-1 账号搭建与冷启动：独立负责「明月村村草书记」抖音账号定位、内容策略和脚本；1 个月内月播放量由 0 增至 6.5 万，粉丝数由 0 增至 969，单条视频播放量 2w+。<br data-page-node-id="b84q6SSGocr87s1RRTBksX">建立数据看板并每周复盘播放、完播与用户画像；主导封面和标题 A/B 测试，依据点击率调整表达，点击率由 26% 提升至 43%。</div>
@@ -1103,6 +1116,73 @@
       card.style.setProperty('--cursor-angle',angle.toFixed(3)+'deg');
     });
   });
+
+  // 首屏 Hero 背景视频声音：浏览器禁止“带声自动播放”，故默认开启，并在访客首次任意交互时真正出声；
+  // Hero 在可视区时出声，划出可视区即静音（满足“进网页即随首屏出声、划走关声”）
+  (function(){
+    var heroVideo = document.querySelector('.hero video.bg');
+    var toggle = document.getElementById('heroSound');
+    if(!heroVideo || !toggle) return;
+    var soundOn = true;   // 默认开启：访客一交互即出声（零交互时浏览器仍强制静音）
+    var started = false;  // 是否已借首次交互真正开过声
+    function heroInView(){
+      var r = heroVideo.getBoundingClientRect();
+      return r.top < window.innerHeight * 0.8 && r.bottom > window.innerHeight * 0.2;
+    }
+    function paint(){
+      toggle.textContent = soundOn ? '🔊' : '🔇';
+      toggle.classList.toggle('muted', !soundOn);
+      toggle.classList.toggle('pending', soundOn && !started); // 待首次交互：脉冲提示
+      toggle.setAttribute('aria-label', soundOn ? '关闭背景声音' : '开启背景声音');
+      toggle.setAttribute('title', soundOn ? '点击关闭背景声音' : '点击开启背景声音');
+    }
+    function unmute(){            // 仅在已开启时调用
+      if(!soundOn) return;
+      heroVideo.muted = false;
+      try { heroVideo.volume = 1; } catch(e){}
+      var p = heroVideo.play();
+      if(p && p.catch) p.catch(function(){});
+    }
+    function silence(){ heroVideo.muted = true; }
+    // 首次用户交互（点击/触摸/按键/滚动）即尝试开声——越贴近“自动”越好
+    function armOnFirstGesture(){
+      if(started){ detach(); return; }
+      started = true; detach();
+      if(heroInView()) unmute();
+    }
+    function detach(){
+      ['pointerdown','touchstart','click','keydown','scroll'].forEach(function(ev){
+        window.removeEventListener(ev, armOnFirstGesture, true);
+      });
+    }
+    ['pointerdown','touchstart','click','keydown','scroll'].forEach(function(ev){
+      window.addEventListener(ev, armOnFirstGesture, true);
+    });
+    // 手动开关：随时可静音/恢复
+    toggle.addEventListener('click', function(e){
+      e.stopPropagation();
+      soundOn = !soundOn; started = true;
+      paint();
+      if(soundOn) unmute(); else silence();
+    });
+    // 可视区变化：进入首屏开声，离开静音
+    if('IntersectionObserver' in window){
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if(en.isIntersecting){ if(soundOn) unmute(); }  // 回到首屏：自动恢复声音
+          else { silence(); }                             // 划走首屏：立刻关掉声音
+        });
+      }, { threshold: 0.2 });
+      io.observe(heroVideo);
+    }
+    // 避免与其他作品视频声音打架：任一内容视频播放时先静音 Hero；它停下且首屏仍在视野则恢复
+    document.querySelectorAll('.vcard video, .hx-playable video, .vid-inline video, #vmVideo').forEach(function(v){
+      v.addEventListener('play', function(){ silence(); });
+      v.addEventListener('pause', function(){ if(soundOn && heroInView()) unmute(); });
+      v.addEventListener('ended', function(){ if(soundOn && heroInView()) unmute(); });
+    });
+    paint();
+  })();
 </script>
 <!-- GSAP + ScrollTrigger（本地化，离线可用）+ 动效系统 -->
 <script src="assets/gsap.min.js" defer=""></script>
