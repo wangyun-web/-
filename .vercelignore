@@ -1,0 +1,17 @@
+# 不上线：构建源码（运行时只用 assets/aeroshards-bg.js）
+/aeroshards/
+
+# 测试/临时文件
+_test_*.html
+_test_shot.png
+
+# 视频亮度探针图
+/videos/_lum_probe.png
+
+# 本地旧资产
+assets/_*.jpg
+assets/*-old.jpg
+
+# Vercel 自身配置不打包
+.vercel/
+.git/
